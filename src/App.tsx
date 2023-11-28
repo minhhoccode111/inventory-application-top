@@ -9,6 +9,12 @@ const App = () => {
           <li className="text-blue font-sans text-2xl">
             <Link to="profile">Profile page</Link>
           </li>
+          <li className="text-blue font-sans text-2xl">
+            <Link to="profile/popeye">Popeye page</Link>
+          </li>
+          <li className="text-blue font-sans text-2xl">
+            <Link to="profile/spinach">Spinach page</Link>
+          </li>
         </ul>
       </nav>
     </div>
