@@ -1,8 +1,5 @@
-import "./App.css";
 import { Link } from "react-router-dom";
-import React from "react";
-
-const App: React.FC = () => {
+const App = () => {
   return (
     <div>
       <h1>Hello from the main page of the app!</h1>
@@ -10,7 +7,7 @@ const App: React.FC = () => {
       <nav>
         <ul>
           <li className="text-blue font-sans text-2xl">
-            <Link to="/profile">Profile page</Link>
+            <Link to="profile">Profile page</Link>
           </li>
         </ul>
       </nav>
