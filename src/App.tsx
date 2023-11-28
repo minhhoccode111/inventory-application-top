@@ -1,5 +1,6 @@
 import "./App.css";
 import { Link } from "react-router-dom";
+import React from "react";
 
 const App: React.FC = () => {
   return (
@@ -8,11 +9,8 @@ const App: React.FC = () => {
       <p>Here are some examples of links to other pages</p>
       <nav>
         <ul>
-          <li>
+          <li className="text-blue font-sans text-2xl">
             <Link to="/profile">Profile page</Link>
-          </li>
-          <li>
-            <Link to="/users">Users page</Link>
           </li>
         </ul>
       </nav>

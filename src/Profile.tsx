@@ -1,21 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import DefaultProfile from "./DefaultProfile";
+import Spinach from "./Spinach";
+import Popeye from "./Popeye";
 
-const Profile: React.FC = () => {
+const Profile = () => {
+  const { name } = useParams();
   return (
     <div>
-      <h1>Hello from profile page!</h1>
+      <h1 className="text-red text-5xl">Hello from profile page!</h1>
       <p>So, how are you?</p>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home page</Link>
-          </li>
-          <li>
-            <Link to="/user">User page</Link>
-          </li>
-        </ul>
-      </nav>
+      <hr />
+      <h2>The profile visited is here:</h2>
+      {name === "popeye" ? (
+        <Popeye />
+      ) : name === "spinach" ? (
+        <Spinach />
+      ) : (
+        <DefaultProfile />
+      )}
     </div>
   );
 };
