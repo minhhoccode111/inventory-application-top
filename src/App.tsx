@@ -1,22 +1,33 @@
 import { Link } from "react-router-dom";
+
 const App = () => {
   return (
-    <div>
-      <h1>Hello from the main page of the app!</h1>
-      <p>Here are some examples of links to other pages</p>
-      <nav>
+    <div className="">
+      <header className="p-4 bg-cyan-100 text-darker border-b flex items-center justify-between gap-4">
+        <h1 className="text-4xl">Page Title</h1>
+        <ul className="flex text-xl items-center justify-center gap-4">
+          <li className="underline opacity-80 transition-colors hover:opacity-100 decoration-dotted hover:decoration-solid">
+            <Link to="/link0">Link0</Link>
+          </li>
+          <li className="underline opacity-80 transition-colors hover:opacity-100 decoration-dotted hover:decoration-solid">
+            <Link to="/link1">Link1</Link>
+          </li>
+          <li className="underline opacity-80 transition-colors hover:opacity-100 decoration-dotted hover:decoration-solid">
+            <Link to="/link2">Link2</Link>
+          </li>
+          <li className="underline opacity-80 transition-colors hover:opacity-100 decoration-dotted hover:decoration-solid">
+            <Link to="/link3">Link3</Link>
+          </li>
+        </ul>
+      </header>
+      <nav className="p-4 text-lg text-darker">
         <ul>
-          <li className="text-blue font-sans text-2xl">
-            <Link to="profile">Profile page</Link>
-          </li>
-          <li className="text-blue font-sans text-2xl">
-            <Link to="profile/popeye">Popeye page</Link>
-          </li>
-          <li className="text-blue font-sans text-2xl">
-            <Link to="profile/spinach">Spinach page</Link>
+          <li>
+            <Link to="/">Home</Link>
           </li>
         </ul>
       </nav>
+      <hr />
     </div>
   );
 };
