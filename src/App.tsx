@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const App = () => {
   return (
     <div className="">
-      <header className="p-4 bg-cyan-100 text-darker border-b flex items-center justify-between gap-4">
+      <header className="p-4 bg-cyan-100 text-darker flex items-center justify-between gap-4">
         <h1 className="text-4xl">Page Title</h1>
         <ul className="flex text-xl items-center justify-center gap-4">
           <li className="underline opacity-80 transition-colors hover:opacity-100 decoration-dotted hover:decoration-solid">
@@ -20,14 +20,8 @@ const App = () => {
           </li>
         </ul>
       </header>
-      <nav className="p-4 text-lg text-darker">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-        </ul>
-      </nav>
       <hr />
+      <Outlet />
     </div>
   );
 };
