@@ -16,25 +16,20 @@ export async function loader({ request }) {
   const contacts = await getContacts(q);
   return { contacts, q };
 }
-
 export async function action() {
   const contact = await createContact();
   return redirect(`/contacts/${contact.id}`);
 }
-
 const Root = () => {
   const { contacts, q } = useLoaderData();
   const navigation = useNavigation();
   const submit = useSubmit();
-
   const searching =
     navigation.location &&
     new URLSearchParams(navigation.location.search).has("q");
-
   useEffect(() => {
     document.getElementById("q").value = q;
   }, [q]);
-
   return (
     <>
       <div id="sidebar">
