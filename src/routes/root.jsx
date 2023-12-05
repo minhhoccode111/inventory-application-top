@@ -10,9 +10,13 @@ import {
 import { getContacts, createContact } from "../contacts";
 import { useEffect } from "react";
 
+// this will be called before the component is render to prepare data, which can be accessed using `useLoaderData`
 export async function loader({ request }) {
+  //
+  console.log(request);
   const url = new URL(request.url);
   const q = url.searchParams.get("q");
+  // or we can write const q = new URL(request.url).searchParams.get('q')
   const contacts = await getContacts(q);
   return { contacts, q };
 }
