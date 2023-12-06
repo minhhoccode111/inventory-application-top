@@ -11,21 +11,32 @@ import { getContacts, createContact } from "../contacts";
 import { useEffect } from "react";
 
 // this will be called before the component is render to prepare data, which can be accessed using `useLoaderData`
+// loader will be called with an object has 2 properties: request, params
 export async function loader({ request }) {
-  //
-  console.log(request);
+  // create a URL object with URL constructor
   const url = new URL(request.url);
+  // then we can access its search query params
   const q = url.searchParams.get("q");
   // or we can write const q = new URL(request.url).searchParams.get('q')
+  // the we search in database if something match that search
   const contacts = await getContacts(q);
+  // return an object which can be accessed using useLoaderData and destructuring data easily
   return { contacts, q };
 }
+
+// this will be called when the form do something with the URL
 export async function action() {
+  // so we create new contact
   const contact = await createContact();
+  // and redirect to that newly created contact id URL
   return redirect(`/contacts/${contact.id}`);
 }
+
+// root element which always existed as a side bar, the dynamic segment part will be in the middle of the page
 const Root = () => {
+  // extract data which was prepared by loader
   const { contacts, q } = useLoaderData();
+  //
   const navigation = useNavigation();
   const submit = useSubmit();
   const searching =
