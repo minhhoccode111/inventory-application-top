@@ -15,8 +15,10 @@ export async function getContacts(query) {
   let contacts = (await localforage.getItem("contacts")) || [];
   // if query search isn't empty
   if (query)
-    // Takes an array of items and a value and returns a new array with the items that match the search query
-    contacts = matchSorter(contacts, query, { keys: ["first", "last"] });
+    // Takes an array of items and a value and returns a new array with the items that match the search query, we search keys in object and its priority
+    contacts = matchSorter(contacts, query, {
+      keys: ["first", "last", "notes"],
+    });
   // sort the result
   return contacts.sort(sortBy("last", "createdAt"));
 }
