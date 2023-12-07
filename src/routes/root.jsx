@@ -38,19 +38,28 @@ const Root = () => {
   const { contacts, q } = useLoaderData();
   //
   const navigation = useNavigation();
+  console.log(navigation);
+  // this submit variable now can be called to act as form submit
   const submit = useSubmit();
+  // if location isn't undefined and we are searching, then searching will be true and can be used to add some style to the app
   const searching =
     navigation.location &&
     new URLSearchParams(navigation.location.search).has("q");
   useEffect(() => {
+    // make the input to match to search URL after we navigate to new URL
     document.getElementById("q").value = q;
   }, [q]);
   return (
     <>
+      {/* side bar always exists to navigation between items */}
       <div id="sidebar">
+        {/* header */}
         <h1>React Router Contacts</h1>
+        {/* fake form to do the searching and adding new item */}
         <div>
+          {/* role search is used to identify the search functionality; as a accessibility way */}
           <Form id="search-form" role="search">
+            {/* a search input */}
             <input
               type="search"
               id="q"
@@ -66,31 +75,42 @@ const Root = () => {
                 });
               }}
             />
+            {/* display a spinner base on weather we are loading */}
             <div id="search-spinner" aria-hidden hidden={!searching} />
+            {/* tell user this is going to change */}
             <div className="sr-only" aria-live="polite"></div>
           </Form>
           <Form method="post">
+            {/* a button to submit form which will automatically create a new item in side bar */}
             <button type="submit">New</button>
           </Form>
         </div>
+        {/* display all items to be a clickable link */}
         <nav>
+          {/* if contacts is not empty */}
           {contacts.length ? (
             <ul>
               {contacts.map((contact) => (
+                // a li contain a link
                 <li key={contact.id}>
+                  {/* each link is a nav link Component, <NavLink> is a special kind of <Link> that knows weather or not it is 'active', 'pending', 'transitioning'. This is useful in scenarios when in a navbar and we want to know which of them is currently selected */}
                   <NavLink
                     to={`contacts/${contact.id}`}
                     className={({ isActive, isPending }) =>
                       isActive ? "active" : isPending ? "pending" : ""
                     }
                   >
+                    {/* if first name or last name not empty */}
                     {contact.first || contact.last ? (
                       <>
+                        {/* then we display first and last name */}
                         {contact.first} {contact.last}
                       </>
                     ) : (
+                      // else it's no name
                       <i>No Name</i>
                     )}{" "}
+                    {/* base on favorite to display a star next to the name */}
                     {contact.favorite && <span> ⭐</span>}
                   </NavLink>
                 </li>
@@ -98,15 +118,19 @@ const Root = () => {
             </ul>
           ) : (
             <p>
+              {/* if navbar is currently empty then display this */}
               <i>No contacts</i>
             </p>
           )}
         </nav>
       </div>
+      {/* this is used to display main content of every item */}
       <div
         id="detail"
+        // in case of poor internet connection, the loading class will make this section fade with opacity 0.25
         className={navigation.state === "loading" ? "loading" : ""}
       >
+        {/* Outlet is dynamic segment */}
         <Outlet />
       </div>
     </>
