@@ -492,43 +492,6 @@ video {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
-.m-14 {
-  margin: 3.5rem;
-}
 .block {
   display: block;
-}
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
-}
-.p-4 {
-  padding: 1rem;
-}
-.text-center {
-  text-align: center;
-}
-.font-sans {
-  font-family: Graphik, sans-serif;
-}
-.font-serif {
-  font-family: Merriweather, serif;
-}
-.font-mono {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
-.text-7xl {
-  font-size: 4.5rem;
-  line-height: 1;
-}
-.font-bold {
-  font-weight: 700;
-}
-.text-red-500 {
-  --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity));
-}
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
