@@ -1,10 +1,28 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const upload = multer({ dest: 'public/images/uploads' });
+const debug = require('debug')('multer');
 
 const ArtistController = require('./../controllers/artistController');
 const SongController = require('./../controllers/songController');
 
-router.get('/', ArtistController.index);
+// test multer module
+router.get('/', (req, res) => {
+  res.render('artist_form', {
+    title: 'Create Artist',
+  });
+});
+
+router.post('/', upload.single('avatar'), (req, res) => {
+  // req.file to access file
+  // req.body to access other fields in form
+  debug('the file object has: ');
+  debug(req.file);
+  res.end(req.file);
+});
+
+// router.get('/', ArtistController.index);
 
 /////* HANDLE ARTIST NAVIGATION */////
 router.get('/artists', ArtistController.artists_list);
