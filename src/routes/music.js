@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const debug = require('debug')('multer');
+const { body, validationResult } = require('express-validator');
 
 const multer = require('multer');
 const storage = multer.diskStorage({
@@ -12,7 +13,17 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + '.' + file.originalname.split('.')[1]);
   },
 });
-const upload = multer({ storage });
+// const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: {
+    fileSize: 4000000, // throw if above this
+  },
+  fileFilter: (req, file, cb) => {
+    //
+    debug(file);
+  },
+});
 
 const ArtistController = require('./../controllers/artistController');
 const SongController = require('./../controllers/songController');
@@ -24,11 +35,22 @@ router.get('/', (req, res) => {
   });
 });
 
-router.post('/', upload.single('avatar'), (req, res) => {
-  debug('the file object has: ');
-  if (req.file === undefined) debug('no file uploaded');
-  res.end();
-});
+router.post('/', upload.single('avatar'), [
+  body('avatar', `Image size is too large`).custom((value, { req }) => {
+    if (req.file.size > 4000000) {
+      debug('file size too large');
+      return false;
+    }
+    return true;
+  }),
+  (req, res) => {
+    const error = validationResult(req).array();
+    debug(error);
+    debug('the file object has: ', req.file.size);
+    if (req.file === undefined) debug('no file uploaded');
+    res.end();
+  },
+]);
 
 // router.get('/', ArtistController.index);
 
