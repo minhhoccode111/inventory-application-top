@@ -1,0 +1,15 @@
+extends layout 
+
+block content
+  h1= title
+  hr
+  if songs_list.length !== 0
+    ul 
+      each song in songs_list 
+        li
+          h2 
+            a(href=song.url) #{song.name} 
+          p= song.description
+
+  else 
+    p There are no songs here yet  

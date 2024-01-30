@@ -492,6 +492,10 @@ video {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
 .block {
   display: block;
 }
@@ -500,6 +504,9 @@ video {
 }
 .h-screen {
   height: 100vh;
+}
+.max-w-xl {
+  max-width: 36rem;
 }
 .flex-1 {
   flex: 1 1 0%;

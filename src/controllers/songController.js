@@ -1,7 +1,16 @@
 const asyncHandler = require('express-async-handler');
+const debug = require('debug')('debug-custom');
+
+const Artist = require('./../models/artist');
+const Song = require('./../models/song');
 
 module.exports.songs_list = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: SONG LIST`);
+  const songs_list = await Song.find({}).exec();
+
+  res.render('songs_list', {
+    title: 'Songs',
+    songs_list,
+  });
 });
 
 module.exports.song_detail = asyncHandler(async (req, res, next) => {

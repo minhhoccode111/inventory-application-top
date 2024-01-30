@@ -17,7 +17,14 @@ module.exports.index = asyncHandler(async (req, res, next) => {
 });
 
 module.exports.artists_list = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: ARTISTS LIST`);
+  const artists_list = await Artist.find({}).exec();
+
+  debug(artists_list);
+
+  res.render('artists_list', {
+    title: 'Artists',
+    artists_list,
+  });
 });
 
 module.exports.artist_detail = asyncHandler(async (req, res, next) => {
