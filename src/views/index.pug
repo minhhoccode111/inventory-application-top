@@ -3,5 +3,10 @@ extends layout
 block link
 
 block content
-  h1= title
-  p Welcome to #{title}
+  p
+    a(href="/music/artists" class="") All artists
+    |: #{artists}
+  p
+    a(href="/music/songs" class="") All songs
+    |: #{songs}
+

@@ -1,7 +1,19 @@
 const asyncHandler = require('express-async-handler');
+const debug = require('debug')('custom-debug');
+
+const Artist = require('./../models/artist');
+const Song = require('./../models/song');
 
 module.exports.index = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: INDEX`);
+  const [artists, songs] = await Promise.all([Artist.countDocuments({}).exec(), Song.countDocuments({}).exec()]);
+
+  debug(artists, songs);
+
+  res.render('index', {
+    title: 'Gimme music',
+    artists,
+    songs,
+  });
 });
 
 module.exports.artists_list = asyncHandler(async (req, res, next) => {

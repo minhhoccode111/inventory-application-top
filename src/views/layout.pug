@@ -10,8 +10,32 @@ html
     meta(name="subject" content="your document's subject")
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel="stylesheet", href="/stylesheets/custom.css")
     //- our custom javascript and css files
     block link
   body
-    div#wrapper(class="")
-      block content 
+    div#wrapper(class="h-screen flex flex-col justify-between items-center gap-4")
+      header
+        //- h1(class="text-4xl text-center")= title 
+        ul(class="flex items-center justify-between gap-4")
+          li 
+            a(href="/music/artists") Artists
+
+          li 
+            a(href="/music/songs") Songs      
+
+          li 
+            a(href="/music/artist/create") Create artist      
+
+          li 
+            a(href="/music/song/create") Create song  
+
+      main(class="flex-1")
+        block content 
+
+      //- footer 
+      //-   p(class="text-center")
+      //-   | Made with love by 
+      //-   |
+      //-   a(href="https://github.com/minhhoccode111/") minhhoccode111
+      //-   |.

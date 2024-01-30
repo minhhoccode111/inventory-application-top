@@ -1,0 +1,13 @@
+body {
+  background-color: #aaa;
+}
+
+a {
+  color: blue;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+}
+
+a:hover {
+  text-decoration-style: solid;
+}

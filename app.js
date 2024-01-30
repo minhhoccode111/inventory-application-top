@@ -1,5 +1,3 @@
-const debugSuccess = require('debug')('database-connect-success');
-const debugFail = require('debug')('database-connect-fail');
 const RateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
@@ -12,12 +10,16 @@ const helmet = require('helmet');
 const path = require('path');
 require('dotenv').config();
 
+const debug = require('debug')('debug-custom');
+
 // connect database
-const dev_db_url = '';
+const dev_db_url = 'mongodb+srv://minhhoccode111:mHfEeMaU9Wze4SRo@cluster0.qhizihs.mongodb.net/?retryWrites=true&w=majority';
 
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
 
-// main().then(debugSuccess).catch(debugFail);
+main()
+  .then(() => debug('connected to database'))
+  .catch((err) => debug('an error occur: ', err));
 
 async function main() {
   await mongoose.connect(mongoDB);
