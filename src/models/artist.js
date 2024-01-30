@@ -16,10 +16,23 @@ const ArtistSchema = new Schema({
     maxLength: 1000,
   },
   thumbnail: String,
-  added_by: String,
-  personal_rating: Number,
-  created_at: Date,
-  lastModified: Date,
+  added_by: {
+    type: String,
+    maxLength: 100,
+    require: true,
+  },
+  personal_rating: {
+    type: Number,
+    require: true,
+  },
+  created_at: {
+    type: Date,
+    require: true,
+  },
+  last_modified: {
+    type: Data,
+    require: true,
+  },
 });
 
 ArtistSchema.virtual('url').get(function () {
