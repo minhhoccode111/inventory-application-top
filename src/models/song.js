@@ -16,10 +16,9 @@ const SongSchema = new Schema({
     maxLength: 1000,
   },
   artist: {
-    type: [Schema.Types.ObjectId],
+    type: [{ type: Schema.ObjectId, ref: 'Artist' }],
     require: true,
   },
-  thumbnail: String,
   added_by: {
     type: String,
     maxLength: 100,
