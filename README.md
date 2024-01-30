@@ -20,7 +20,7 @@ The **Gimme Music** application is created according to the assignment from **Th
 - Used **Something 1**
 - Learned how to something 0
 - Learned how to something 1
-- A more detail note about how I solve this project without looking at MDN Express Tutorial again can be found [here](NOTE.md)
+- A more detail note about how I solve this can be found [here](NOTE.md)
 
 ## **Getting Started**
 
