@@ -30,7 +30,7 @@ const ArtistSchema = new Schema({
     require: true,
   },
   last_modified: {
-    type: Data,
+    type: Date,
     require: true,
   },
 });

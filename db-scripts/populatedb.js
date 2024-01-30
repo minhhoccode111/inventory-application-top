@@ -1,9 +1,14 @@
 // add default data in database
 
-const Artist = require('./src/models/artist');
-const Song = require('./src/models/song');
+const Artist = require('./../src/models/artist');
+const Song = require('./../src/models/song');
 
-const custom = require('debug')('custom-debug');
+// const custom = require('debug')('debug-custom');
+const custom = (...str) => {
+  for (const s of str) {
+    console.log(s);
+  }
+};
 
 const mongoDB = process.argv.slice(2)[0] || 'mongodb+srv://minhhoccode111:mHfEeMaU9Wze4SRo@cluster0.qhizihs.mongodb.net/?retryWrites=true&w=majority';
 
@@ -54,6 +59,9 @@ async function createArtists() {
   await artistCreate(0, 'Ngọt', `Ngọt - We play music!`, 'ngotband.jpeg', 'mhc', 10);
   await artistCreate(1, 'Cá Hồi Hoang', `A rock band playing pop music from Da Lat City, started in 2013. They have released 6 albums.`, 'cahoihoangband.jpeg', 'mhc', 10);
   await artistCreate(2, `Phùng Khánh Linh`, `Collab with Cá Hồi Hoang in "Xúc Cảm Bộ Máy"`, 'placeholder.png', 'mhc', 9);
+
+  const count = await Artist.countDocuments({}).exec();
+  custom(`Artist models is having: ${count} documents`);
 }
 
 async function createSongs() {
@@ -88,4 +96,7 @@ async function createSongs() {
     'mhc',
     10
   );
+
+  const count = await Song.countDocuments({}).exec();
+  custom(`Song models is having: ${count} documents`);
 }

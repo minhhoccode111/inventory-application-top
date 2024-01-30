@@ -33,7 +33,7 @@ const SongSchema = new Schema({
     require: true,
   },
   last_modified: {
-    type: Data,
+    type: Date,
     require: true,
   },
 });
@@ -54,4 +54,4 @@ SongSchema.virtual('created_at_formatted').get(function () {
   return DateTime.fromJSDate(this.created_at).toLocaleString(DateTime.DATE_MED);
 });
 
-module.exports = mongoose.model('Artist', SongSchema);
+module.exports = mongoose.model('Song', SongSchema);
