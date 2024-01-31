@@ -18,6 +18,11 @@ main().catch((err) => debug('some errors occur', err));
 async function main() {
   debug('about to connect to database');
   await mongoose.connect(mongoDB);
+  const artistNum = await Artist.countDocuments({}).exec();
+  const songNum = await Song.countDocuments({}).exec();
+
+  debug(`number of artist currently in database: ${artistNum}`);
+  debug(`number of song currently in database: ${songNum}`);
   debug('connected');
   debug('about to disconnect to database');
   await mongoose.connection.close();

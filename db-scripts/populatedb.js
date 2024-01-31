@@ -20,8 +20,8 @@ const songs = [];
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 
-const artistCreate = async (index, name, description, thumbnail, added_by, personal_rating) => {
-  const artistDetail = { name, description, thumbnail, added_by, personal_rating, created_at: Date.now(), last_modified: Date.now() };
+const artistCreate = async (index, name, description, thumbnail_extension, added_by, personal_rating) => {
+  const artistDetail = { name, description, thumbnail_extension, added_by, personal_rating, created_at: Date.now(), last_modified: Date.now() };
   const artist = new Artist(artistDetail);
   await artist.save();
   artists[index] = artist;
@@ -58,9 +58,9 @@ async function main() {
 }
 
 async function createArtists() {
-  await artistCreate(0, 'Ngọt', `Ngọt - We play music!`, 'ngotband.jpeg', 'mhc', 10);
-  await artistCreate(1, 'Cá Hồi Hoang', `A rock band playing pop music from Da Lat City, started in 2013. They have released 6 albums.`, 'cahoihoangband.jpeg', 'mhc', 10);
-  await artistCreate(2, `Phùng Khánh Linh`, `Collab with Cá Hồi Hoang in "Xúc Cảm Bộ Máy"`, 'placeholder.png', 'mhc', 9);
+  await artistCreate(0, 'Ngọt', `Ngọt - We play music!`, 'jpeg', 'mhc', 10);
+  await artistCreate(1, 'Cá Hồi Hoang', `A rock band playing pop music from Da Lat City, started in 2013. They have released 6 albums.`, 'jpeg', 'mhc', 10);
+  await artistCreate(2, `Phùng Khánh Linh`, `Collab with Cá Hồi Hoang in "Xúc Cảm Bộ Máy"`, null, 'mhc', 9);
 
   const count = await Artist.countDocuments({}).exec();
   custom(`Artist models is having: ${count} documents`);

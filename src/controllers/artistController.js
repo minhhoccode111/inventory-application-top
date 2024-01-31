@@ -1,7 +1,8 @@
 const asyncHandler = require('express-async-handler');
 const debug = require('debug')('custom-debug');
 
-const fs = require('fs');
+// to remove files
+const { unlink } = require('node:fs/promises');
 const path = require('path');
 
 const Artist = require('./../models/artist');
@@ -68,18 +69,14 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     debug('file object upload', file);
-
     // mark file extension on req object
     req.body.thumbnail_extension = file.originalname.split('.')[1];
-
     // name to save the file
-    const savedName = format(req.body.name + '.' + file.originalname.split('.')[1]);
-
+    const thumbnail_name = format(req.body.name + '.' + file.originalname.split('.')[1]);
     // mark saved name on req object, so that when we sanitize date with express-validator we don't lose track of the file we just save
-    req.body.savedName = savedName;
-
+    req.body.thumbnail_name = thumbnail_name;
     // then save with that file name
-    cb(null, savedName);
+    cb(null, thumbnail_name);
   },
 });
 const limits = { fileSize: 1024 * 1024 * 4 }; // max 4MB
@@ -97,21 +94,21 @@ const uploadWrapper = (req, res, next) => {
 
 module.exports.artist_create_post = [
   uploadWrapper,
-  body('name', 'Name should not be empty').trim().isLength({ min: 1 }).escape(),
-  body('description', 'Description should not be empty').trim().isLength({ min: 1 }).escape(),
-  body('added_by', 'Added by should not be empty').trim().isLength({ min: 1 }).escape(),
+  body('name', 'Name should not be empty.').trim().isLength({ min: 1 }).escape(),
+  body('description', 'Description should not be empty.').trim().isLength({ min: 1 }).escape(),
+  body('added_by', 'Added by should not be empty.').trim().isLength({ min: 1 }).escape(),
   body('personal_rating')
     .trim()
     .isLength({ min: 1 })
-    .withMessage('Personal rating should not be empty')
+    .withMessage('Personal rating should not be empty.')
     .custom((value) => !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 10)
-    .withMessage('Personal rating must between 0 and 10')
+    .withMessage('Personal rating must between 0 and 10.')
     .escape(),
   body('avatar')
     .custom((value, { req }) => !req.isUploadError)
-    .withMessage("There's an error with file upload")
+    .withMessage("There's an error with file upload.")
     .custom((value, { req }) => !req.isLimitFileSize)
-    .withMessage(`That file is too large`),
+    .withMessage(`That file is too large.`),
   asyncHandler(async (req, res, next) => {
     const error = validationResult(req);
     debug('in artist create post '.padEnd(200, '-'));
@@ -128,11 +125,22 @@ module.exports.artist_create_post = [
     });
 
     if (error.isEmpty()) {
+      await artist.save();
+      res.redirect(`/music/artist/${artist._id}`);
     } else {
-      //
-    }
+      if (req.body.thumbnail_name !== undefined) {
+        // we are in /src/controllers
+        const thumbnail_path = path.join(__dirname, `../../public/images/uploads/`, req.body.thumbnail_name);
+        await unlink(thumbnail_path);
+        debug('successfully removed file when form validation has errors');
+      }
 
-    res.send(`NOT IMPLEMENTED: ARTIST CREATE POST`);
+      res.render('artist_form', {
+        title: 'Create Artist',
+        artist,
+        errors: error.array(),
+      });
+    }
   }),
 ];
 

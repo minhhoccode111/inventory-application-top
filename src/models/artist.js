@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const format = require('./../functions');
+
 const { DateTime } = require('luxon'); // for date handling
 
 const Schema = mongoose.Schema;
@@ -8,17 +10,14 @@ const ArtistSchema = new Schema({
   name: {
     type: String,
     require: true,
-    maxLength: 100,
   },
   description: {
     type: String,
     require: true,
-    maxLength: 1000,
   },
-  thumbnail: String,
+  thumbnail_extension: String,
   added_by: {
     type: String,
-    maxLength: 100,
     require: true,
   },
   personal_rating: {
@@ -44,11 +43,21 @@ ArtistSchema.virtual('query').get(function () {
 });
 
 ArtistSchema.virtual('last_modified_formatted').get(function () {
-  return DateTime.fromJSDate(this.last_modified).toLocaleString(DateTime.DATE_MED);
+  return DateTime.fromJSDate(this.last_modified).toLocaleString(DateTime.DATE_MED) + ' - ' + DateTime.fromJSDate(this.last_modified).toLocaleString(DateTime.TIME_24_SIMPLE);
 });
 
 ArtistSchema.virtual('created_at_formatted').get(function () {
-  return DateTime.fromJSDate(this.created_at).toLocaleString(DateTime.DATE_MED);
+  return DateTime.fromJSDate(this.created_at).toLocaleString(DateTime.DATE_MED) + ' - ' + DateTime.fromJSDate(this.created_at).toLocaleString(DateTime.TIME_24_SIMPLE);
+});
+
+ArtistSchema.virtual('thumbnail_name').get(function () {
+  if (thumbnail_extension) return format(this.name + '.' + this.thumbnail_extension);
+  return '';
+});
+
+ArtistSchema.virtual('description_short').get(function () {
+  if (this.description.length > 150) return this.description.slice(0, 148) + '...';
+  return this.description;
 });
 
 module.exports = mongoose.model('Artist', ArtistSchema);

@@ -8,19 +8,19 @@ block content
     form(method="POST" enctype="multipart/form-data" class="flex flex-col gap-3 p-4")
       label Name:*
         | 
-        input(id="name" type="text", name="name" placeholder="Enter artist name" minlength="2" required) 
+        input(id="name" type="text", name="name" placeholder="Enter artist name" minlength="2" required value=(undefined===artist?'':artist.name)) 
       br
       label Description:*
         | 
-        input(type="text", name="description" placeholder="Once upon a time..." required)  
+        input(type="text", name="description" placeholder="Once upon a time..." required value=(undefined===artist?'':artist.description))  
       br
       label Added by:*
         | 
-        input(type="text", name="added_by" placeholder="Enter your name" required) 
+        input(type="text", name="added_by" placeholder="Enter your name" required value=(undefined===artist?'':artist.added_by)) 
       br
       label Personal rating:*
         | 
-        input(type="number", name="personal_rating" placeholder="10" required) 
+        input(type="number", name="personal_rating" placeholder="10" required value=(undefined===artist?'':artist.personal_rating)) 
       br
       label Artist image:
         | 
@@ -33,3 +33,4 @@ block content
     ul
       each err in errors
         li= err.msg
+    p Data is invalid so your thumbnail is removed, please send it again

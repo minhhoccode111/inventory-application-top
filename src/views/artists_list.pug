@@ -8,8 +8,8 @@ block content
       each artist in artists_list 
         li
           h2 
-            a(href=artist.url) #{artist.name} 
-          p= artist.description
+            a(href=artist.url)!= artist.name 
+          p!= artist.description_short
 
   else 
     p There are no artists here yet  

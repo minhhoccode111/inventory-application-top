@@ -8,12 +8,10 @@ const SongSchema = new Schema({
   name: {
     type: String,
     require: true,
-    maxLength: 100,
   },
   description: {
     type: String,
     require: true,
-    maxLength: 1000,
   },
   artist: {
     type: [{ type: Schema.ObjectId, ref: 'Artist' }],
@@ -21,7 +19,6 @@ const SongSchema = new Schema({
   },
   added_by: {
     type: String,
-    maxLength: 100,
     require: true,
   },
   personal_rating: {
@@ -47,11 +44,16 @@ SongSchema.virtual('query').get(function () {
 });
 
 SongSchema.virtual('last_modified_formatted').get(function () {
-  return DateTime.fromJSDate(this.last_modified).toLocaleString(DateTime.DATE_MED);
+  return DateTime.fromJSDate(this.last_modified).toLocaleString(DateTime.DATE_MED) + ' - ' + DateTime.fromJSDate(this.last_modified).toLocaleString(DateTime.TIME_24_SIMPLE);
 });
 
 SongSchema.virtual('created_at_formatted').get(function () {
-  return DateTime.fromJSDate(this.created_at).toLocaleString(DateTime.DATE_MED);
+  return DateTime.fromJSDate(this.created_at).toLocaleString(DateTime.DATE_MED) + ' - ' + DateTime.fromJSDate(this.created_at).toLocaleString(DateTime.TIME_24_SIMPLE);
+});
+
+SongSchema.virtual('description_short').get(function () {
+  if (this.description.length > 150) return this.description.slice(0, 148) + '...';
+  return this.description;
 });
 
 module.exports = mongoose.model('Song', SongSchema);

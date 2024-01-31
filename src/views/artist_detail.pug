@@ -3,10 +3,11 @@ extends layout
 block link
 
 block content 
+  //- do something with artist's thumbnail
   h1.text-2xl 
-    a(href=`https://www.google.com/search?q=${artist.query}+artist`) 🔗 #{artist.name}
-  p Desc: #{artist.description}
-  p Added by: #{artist.added_by}
+    a(href=`https://www.google.com/search?q=${artist.query}+artist`)!= '🔗' + artist.name
+  p!= 'Desc: ' + artist.description
+  p!= 'Added by: ' + artist.added_by
   p Artist rating: #{artist.personal_rating}/10
   p.text-right.text-xs
     i Created At: #{artist.created_at_formatted}
@@ -18,12 +19,12 @@ block content
     ul 
       each song in artist_songs
         p.text-xl
-          a(href=song.url) #{song.name}
+          a(href=song.url)!= song.name
         p
           i
             each subArtist, index in song.artist
               if subArtist.name !== artist.name
-                a(href=subArtist.url) #{subArtist.name}
+                a(href=subArtist.url)!= subArtist.name
               else
                 span= subArtist.name
               if index !== song.artist.length - 1
@@ -35,5 +36,5 @@ block content
 
   else
     p This artist has no songs
-  hr
+  hr.mb-16
 

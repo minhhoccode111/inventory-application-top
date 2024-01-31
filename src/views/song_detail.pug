@@ -4,18 +4,18 @@ block link
 
 block content 
   h1.text-2xl 
-    a(href=`https://www.youtube.com/results?search_query=${song.query}+song`) 🔗 #{song.name}
+    a(href=`https://www.youtube.com/results?search_query=${song.query}+song`)!= '🔗' + song.name
   p Artist(s):
     | 
     i
       each artist, index in song.artist
-        a(href=artist.url) #{artist.name}
+        a(href=artist.url)!= artist.name
         if index !== song.artist.length - 1
           |, 
       |.
 
-  p Desc: #{song.description}
-  p Added by: #{song.added_by}
+  p!= 'Desc: ' + song.description
+  p!= 'Added by: ' + song.added_by
   p Song rating: #{song.personal_rating}/10
   p.text-right.text-xs
     i Created At: #{song.created_at_formatted}

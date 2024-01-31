@@ -8,8 +8,8 @@ block content
       each song in songs_list 
         li
           h2 
-            a(href=song.url) #{song.name} 
-          p= song.description
+            a(href=song.url)!= song.name 
+          p!= song.description_short
 
   else 
     p There are no songs here yet  
