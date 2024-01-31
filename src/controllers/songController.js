@@ -4,6 +4,8 @@ const debug = require('debug')('debug-custom');
 const Artist = require('./../models/artist');
 const Song = require('./../models/song');
 
+const { body, validationResult } = require('express-validator');
+
 module.exports.songs_list = asyncHandler(async (req, res, next) => {
   const songs_list = await Song.find({}).exec();
 
@@ -31,11 +33,32 @@ module.exports.song_detail = asyncHandler(async (req, res, next) => {
 });
 
 module.exports.song_create_get = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: SONG CREATE GET`);
+  const artists_list = await Artist.find({}, 'name').exec();
+
+  debug(artists_list);
+
+  // artists_list.forEach((artist) => (artist.checked = true));
+
+  res.render('song_form', {
+    title: 'Create Song',
+    artists_list,
+  });
 });
-module.exports.song_create_post = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: SONG CREATE POST`);
-});
+
+module.exports.song_create_post = [
+  (req, res, next) => {
+    // convert checkboxes values to array
+  },
+  body(),
+  body(),
+  body(),
+  body(),
+  body(),
+  body(),
+  asyncHandler(async (req, res, next) => {
+    res.send(`NOT IMPLEMENTED: SONG CREATE POST`);
+  }),
+];
 
 module.exports.song_delete_get = asyncHandler(async (req, res, next) => {
   res.send(`NOT IMPLEMENTED: SONG DELETE GET : ID: ${req.params.id}`);

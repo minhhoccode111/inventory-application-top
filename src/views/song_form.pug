@@ -1,0 +1,40 @@
+extends layout
+
+block link
+
+block content
+  h1= title
+  if artists_list.length === 0
+    p!= "We must have at least 1 artist to create songs!"
+  else
+    div
+      form(method="POST" class="flex flex-col gap-3 p-4")
+        label Name:*
+          | 
+          input(id="name" type="text", name="name" placeholder="Enter song name" minlength="2" required value=(undefined===song?'':song.name)) 
+        br
+        label Description:*
+          | 
+          input(type="text", name="description" placeholder="Once upon a time..." required value=(undefined===song?'':song.description))  
+        br
+        label Added by:*
+          | 
+          input(type="text", name="added_by" placeholder="Enter your name" required value=(undefined===song?'':song.added_by)) 
+        br
+        label Personal rating:*
+          | 
+          input(type="number", name="personal_rating" placeholder="10" required value=(undefined===song?'':song.personal_rating)) 
+        br
+        div
+          p Select artist(s):*
+          each artist in artists_list 
+            label.block!= artist.name
+              input(type="checkbox" value=artist._id checked=artist.checked)
+        hr
+        button(type="submit") Submit
+
+  if errors
+    hr  
+    ul
+      each err in errors
+        li= err.msg
