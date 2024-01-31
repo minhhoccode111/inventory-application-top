@@ -2,8 +2,4 @@ extends layout
 
 block content
   h1= message
-  for val, key in error 
-    p
-      strong= key + ':' + val
-  h2= error.status
-  pre #{error.stack}
+  h1 Not Found

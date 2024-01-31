@@ -28,7 +28,24 @@ module.exports.artists_list = asyncHandler(async (req, res, next) => {
 });
 
 module.exports.artist_detail = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: ARTIST DETAIL : ID: ${req.params.id}`);
+  const [artist, artist_songs] = await Promise.all([
+    Artist.findById(req.params.id).exec(),
+    Song.find({ artist: { $in: req.params.id } }, 'name url personal_rating')
+      .populate({ path: 'artist', select: 'name url' })
+      .exec(),
+  ]);
+
+  if (artist === null) {
+    const err = new Error(`Artist not found`);
+    err.status = 404;
+    next(err);
+  }
+
+  res.render('artist_detail', {
+    artist,
+    artist_songs,
+    title: 'Artist Detail',
+  });
 });
 
 module.exports.artist_create_get = asyncHandler(async (req, res, next) => {

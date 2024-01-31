@@ -1,0 +1,40 @@
+extends layout
+
+block link
+
+block content 
+  h1.text-2xl 
+    a(href=`https://www.google.com/search?q=${artist.query}+artist`) #{artist.name}
+  
+  p Desc: #{artist.description}
+  p Added by: #{artist.added_by}
+  p Artist rating: #{artist.personal_rating}/10
+  p.text-right.text-xs
+    i Created At: #{artist.created_at_formatted}
+  p.text-right.text-xs
+    i Last modified: #{artist.last_modified_formatted}
+  hr.my-8
+
+  if artist_songs.length !== 0
+    ul 
+      each song in artist_songs
+        p.text-xl
+          a(href=song.url) #{song.name}
+        p
+          i
+            each subArtist, index in song.artist
+              if subArtist.name !== artist.name
+                a(href=subArtist.url) #{subArtist.name}
+              else
+                span= subArtist.name
+              if index !== song.artist.length - 1
+                |, 
+            |.
+        p.text-sm Song rating: #{song.personal_rating}/10
+        br
+
+
+  else
+    p This artist has no songs
+  hr
+

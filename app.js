@@ -2,8 +2,6 @@ const RateLimit = require('express-rate-limit');
 const cookieParser = require('cookie-parser');
 const createError = require('http-errors');
 const compression = require('compression');
-const mongoose = require('mongoose');
-mongoose.set('strictQuery', false);
 const express = require('express');
 const logger = require('morgan');
 const helmet = require('helmet');
@@ -13,6 +11,8 @@ require('dotenv').config();
 const debug = require('debug')('debug-custom');
 
 // connect database
+const mongoose = require('mongoose');
+mongoose.set('strictQuery', false);
 const dev_db_url = 'mongodb+srv://minhhoccode111:mHfEeMaU9Wze4SRo@cluster0.qhizihs.mongodb.net/?retryWrites=true&w=majority';
 
 const mongoDB = process.env.MONGODB_URI || dev_db_url;
@@ -25,6 +25,7 @@ async function main() {
   await mongoose.connect(mongoDB);
 }
 
+// routes controllers
 const indexRouter = require('./src/routes/index');
 const aboutRouter = require('./src/routes/about');
 const musicRouter = require('./src/routes/music');
@@ -70,7 +71,10 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {
+    message: 'Something broke',
+    title: 'Error!',
+  });
 });
 
 module.exports = app;

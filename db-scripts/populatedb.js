@@ -21,7 +21,7 @@ const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 
 const artistCreate = async (index, name, description, thumbnail, added_by, personal_rating) => {
-  const artistDetail = { name, description, thumbnail, added_by, personal_rating };
+  const artistDetail = { name, description, thumbnail, added_by, personal_rating, created_at: Date.now(), last_modified: Date.now() };
   const artist = new Artist(artistDetail);
   await artist.save();
   artists[index] = artist;
@@ -35,6 +35,8 @@ const songCreate = async (index, name, description, artist, added_by, personal_r
     added_by,
     personal_rating,
     artist,
+    created_at: Date.now(),
+    last_modified: Date.now(),
   };
   const song = new Song(songDetail);
   await song.save();
