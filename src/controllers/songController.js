@@ -14,7 +14,20 @@ module.exports.songs_list = asyncHandler(async (req, res, next) => {
 });
 
 module.exports.song_detail = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: SONG DETAIL : ID: ${req.params.id}`);
+  const song = await Song.findById(req.params.id).populate({ path: 'artist', select: 'name url' }).exec();
+
+  debug(song);
+
+  if (song === null) {
+    const err = new Error('Song not found');
+    err.status = 404;
+    next(err);
+  }
+
+  res.render('song_detail', {
+    title: 'Song Detail',
+    song,
+  });
 });
 
 module.exports.song_create_get = asyncHandler(async (req, res, next) => {
