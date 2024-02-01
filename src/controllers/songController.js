@@ -118,9 +118,38 @@ module.exports.song_delete_get = asyncHandler(async (req, res, next) => {
   });
 });
 
-module.exports.song_delete_post = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: SONG DELETE POST : ID: ${req.params.id}`);
-});
+module.exports.song_delete_post = [
+  body('password')
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Password cannot be empty or all spaces!')
+    .custom((value) => value === process.env.PASSWORD)
+    .withMessage(`INCORRECT PASSWORD, please try something else!`),
+  asyncHandler(async (req, res, next) => {
+    const error = validationResult(req);
+
+    // check for existence
+    const song = await Song.findById(req.params.id).exec();
+
+    debug('song we try do delete', song);
+    if (song === null) {
+      const err = new Error('Song not found');
+      err.status = 404;
+      next(err);
+    }
+
+    if (error.isEmpty()) {
+      await Song.findByIdAndDelete(req.params.id);
+      res.redirect('/music/songs');
+    }
+
+    res.render('song_delete', {
+      title: 'Delete Song',
+      errors: error.array(),
+      song,
+    });
+  }),
+];
 
 module.exports.song_update_get = asyncHandler(async (req, res, next) => {
   res.send(`NOT IMPLEMENTED: SONG UPDATE GET : ID: ${req.params.id}`);
