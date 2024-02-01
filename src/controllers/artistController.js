@@ -87,7 +87,7 @@ const uploadWrapper = (req, res, next) => {
   upload(req, res, (err) => {
     if (err) {
       req.isUploaded = false;
-      req.thumbnail_extension = undefined;
+      req.thumbnail_extension = null;
       if (err.code === 'LIMIT_FILE_SIZE') req.isLimitFileSize = true;
     }
     next();
@@ -187,8 +187,12 @@ module.exports.artist_delete_post = [
       if (artist.thumbnail_name !== '') {
         // remove uploaded thumbnail
         const thumbnail_path = path.join(__dirname, `../../public/images/uploads/`, artist.thumbnail_name);
-        await unlink(thumbnail_path);
-        debug('successfully removed file when form validation has errors');
+        try {
+          await unlink(thumbnail_path);
+          debug('successfully removed file when form validation has errors');
+        } catch (err) {
+          debug(err);
+        }
       }
 
       await Artist.findByIdAndDelete(req.params.id);
