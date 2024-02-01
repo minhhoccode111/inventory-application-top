@@ -23,3 +23,9 @@ block content
     i Last modified: #{song.last_modified_formatted}
   hr.my-8
 
+  p(class="flex gap-4 items-center justify-between p-4") 
+    a(href=`/music/song/${song.id}/delete`) Delete song 
+    a(href=`/music/song/${song.id}/update`) Update song
+
+ 
+

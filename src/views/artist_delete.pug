@@ -1,0 +1,31 @@
+extends layout 
+
+block content
+  h1 Delete Artist:  
+    a(href=artist.url)!= artist.name
+  p!= 'Desc: ' + artist.description
+  p!= 'Added by: ' + artist.added_by
+  p Artist rating: #{artist.personal_rating}/10
+  p.text-right.text-xs
+    i Created At: #{artist.created_at_formatted}
+  p.text-right.text-xs
+    i Last modified: #{artist.last_modified_formatted}
+  hr.my-8
+
+  if artist_songs.length !== 0
+    p 
+      strong Please delete the following song(s) before trying to delete this artist!
+      ul.list-disc
+        each song in artist_songs
+          li
+            a(href=song.url)!= song.name
+
+  else
+    h2 
+      strong DELETE is a sensitive action. Please enter password to confirm! 
+    div 
+      form(action="POST" class="")
+        label Password*:
+          input(type="password" name="password" required) 
+        br
+        button(type="submit" class="text-xl p-4 border rounded-full m-4") Delete

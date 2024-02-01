@@ -148,7 +148,19 @@ module.exports.artist_create_post = [
 ];
 
 module.exports.artist_delete_get = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: ARTIST DELETE GET : ID: ${req.params.id}`);
+  const [artist, artist_songs] = await Promise.all([Artist.findById(req.params.id).exec(), Song.find({ artist: { $in: req.params.id } }, 'name').exec()]);
+
+  if (artist === null) {
+    const err = new Error('Artist not found');
+    err.status = 404;
+    next(err);
+  }
+
+  res.render('artist_delete', {
+    title: 'Delete Artist',
+    artist,
+    artist_songs,
+  });
 });
 
 module.exports.artist_delete_post = asyncHandler(async (req, res, next) => {

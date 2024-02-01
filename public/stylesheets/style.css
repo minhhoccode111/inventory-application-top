@@ -492,6 +492,9 @@ video {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+.m-4 {
+  margin: 1rem;
+}
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -521,6 +524,9 @@ video {
 .flex-1 {
   flex: 1 1 0%;
 }
+.list-disc {
+  list-style-type: disc;
+}
 .flex-col {
   flex-direction: column;
 }
@@ -535,6 +541,12 @@ video {
 }
 .gap-4 {
   gap: 1rem;
+}
+.rounded-full {
+  border-radius: 9999px;
+}
+.border {
+  border-width: 1px;
 }
 .p-4 {
   padding: 1rem;

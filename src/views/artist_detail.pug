@@ -16,22 +16,23 @@ block content
   hr.my-8
 
   if artist_songs.length !== 0
-    ul 
+    ul.list-disc
       each song in artist_songs
-        p.text-xl
-          a(href=song.url)!= song.name
-        p
-          i
-            each subArtist, index in song.artist
-              if subArtist.name !== artist.name
-                a(href=subArtist.url)!= subArtist.name
-              else
-                span= subArtist.name
-              if index !== song.artist.length - 1
-                |, 
-            |.
-        p.text-sm Song rating: #{song.personal_rating}/10
-        br
+        li
+          p.text-xl
+            a(href=song.url)!= song.name
+          p
+            i
+              each subArtist, index in song.artist
+                if subArtist.name !== artist.name
+                  a(href=subArtist.url)!= subArtist.name
+                else
+                  span= subArtist.name
+                if index !== song.artist.length - 1
+                  |, 
+              |.
+          p.text-sm Song rating: #{song.personal_rating}/10
+          br
 
 
   else
@@ -39,4 +40,8 @@ block content
     p 
       a(href="/music/song/create") Create song
   hr.mb-16
+
+  p(class="flex gap-4 items-center justify-between p-4") 
+    a(href=`/music/artist/${artist.id}/delete`) Delete artist 
+    a(href=`/music/artist/${artist.id}/update`) Update artist
 

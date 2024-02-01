@@ -3,6 +3,15 @@ extends layout
 block link
 
 block content
-  p All artists: #{artists}
-  p All songs: #{songs}
+  ul(class="list-disc")
+    li  
+      |All
+      | 
+      a(href="/music/artists") artists
+      |: #{artists}
+    li 
+      |All
+      | 
+      a(href="/music/songs") songs
+      |: #{songs}
 
