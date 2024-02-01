@@ -6,10 +6,16 @@ block content
   if artists_list.length !== 0
     ul.list-disc 
       each artist in artists_list 
-        li
-          h2 
-            a(href=artist.url)!= artist.name 
-          p!= artist.description_short
+        li(class="flex gap-4 justify-between items-center my-2")
+          div(class="w-14 h-14 flex justify-center items-center") 
+            if artist.thumbnail_name === ''
+              img(class="object-center object-cover h-full block" src=`/images/default.png`, alt=`Placeholder image 'cause this artist doesn't have one`)
+            else 
+              img(class="object-center object-cover h-full block" src=`/images/uploads/${artist.thumbnail_name}`, alt=`${artist.name} image`)
+          div.flex-1
+            h2 
+              a(href=artist.url)!= artist.name 
+            p!= artist.description_short
 
   else 
     p There are no artists here yet  

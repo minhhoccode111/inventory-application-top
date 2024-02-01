@@ -3,16 +3,22 @@ extends layout
 block link
 
 block content 
-  //- do something with artist's thumbnail
-  h1.text-2xl 
-    a(href=`https://www.google.com/search?q=${artist.query}+artist`)!= '🔗' + artist.name
-  p!= 'Desc: ' + artist.description
-  p!= 'Added by: ' + artist.added_by
-  p Artist rating: #{artist.personal_rating}/10
-  p.text-right.text-xs
-    i Created At: #{artist.created_at_formatted}
-  p.text-right.text-xs
-    i Last modified: #{artist.last_modified_formatted}
+  header(class="flex gap-4 items-center justify-between")
+    div(class="aspect-square max-w-36 flex justify-center items-center") 
+      if artist.thumbnail_name === ''
+        img(class="object-center object-cover h-full block" src=`/images/default.png`, alt=`Placeholder image 'cause this artist doesn't have one`)
+      else 
+        img(class="object-center object-cover h-full block" src=`/images/uploads/${artist.thumbnail_name}`, alt=`${artist.name} image`)
+    div.flex-1
+      h1.text-2xl 
+        a(href=`https://www.google.com/search?q=${artist.query}+artist`)!= ' 🔗 ' + artist.name
+      p!= 'Desc: ' + artist.description
+      p!= 'Added by: ' + artist.added_by
+      p Artist rating: #{artist.personal_rating}/10
+      p.text-right.text-xs
+        i Created At: #{artist.created_at_formatted}
+      p.text-right.text-xs
+        i Last modified: #{artist.last_modified_formatted}
   hr.my-8
 
   if artist_songs.length !== 0

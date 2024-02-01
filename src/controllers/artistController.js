@@ -70,7 +70,7 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const thumbnail_extension = file.originalname.split('.')[1];
 
-    const thumbnail_name = format(req.body.name + '.' + thumbnail_extension);
+    const thumbnail_name = format(req.body.name) + '.' + thumbnail_extension;
 
     cb(null, thumbnail_name);
 
