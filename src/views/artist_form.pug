@@ -30,7 +30,7 @@ block content
 
   if errors
     hr  
-    ul
+    ul.list-disc
       each err in errors
         li= err.msg
-    p Data is invalid so your thumbnail is removed, please send it again
+      li Data is invalid so your previous uploaded image is removed, please send it again!

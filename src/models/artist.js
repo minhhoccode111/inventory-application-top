@@ -51,7 +51,7 @@ ArtistSchema.virtual('created_at_formatted').get(function () {
 });
 
 ArtistSchema.virtual('thumbnail_name').get(function () {
-  if (thumbnail_extension) return format(this.name + '.' + this.thumbnail_extension);
+  if (this.thumbnail_extension) return format(this.name + '.' + this.thumbnail_extension);
   return '';
 });
 
