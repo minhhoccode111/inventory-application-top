@@ -24,8 +24,13 @@ block content
     h2 
       strong DELETE is a sensitive action. Please enter password to confirm! 
     div 
-      form(action="POST" class="")
+      form(method="POST" class="")
         label Password*:
           input(type="password" name="password" required) 
         br
         button(type="submit" class="text-xl p-4 border rounded-full m-4") Delete
+
+    if errors !== undefined
+      ul.list-disc
+        each error in errors
+          li= error.msg

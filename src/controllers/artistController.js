@@ -163,9 +163,38 @@ module.exports.artist_delete_get = asyncHandler(async (req, res, next) => {
   });
 });
 
-module.exports.artist_delete_post = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: ARTIST DELETE POST : ID: ${req.params.id}`);
-});
+module.exports.artist_delete_post = [
+  body('password')
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Password cannot be empty or all spaces!')
+    .custom((value) => value === process.env.PASSWORD)
+    .withMessage(`INCORRECT PASSWORD, please try something else!`),
+  asyncHandler(async (req, res, next) => {
+    const error = validationResult(req);
+
+    // check for existence
+    const [artist, artist_songs] = await Promise.all([Artist.findById(req.params.id).exec(), Song.find({ artist: { $in: req.params.id } }, 'name').exec()]);
+
+    if (artist === null) {
+      const err = new Error('Artist not found');
+      err.status = 404;
+      next(err);
+    }
+
+    if (error.isEmpty()) {
+      await Artist.findByIdAndDelete(req.params.id);
+      res.redirect('/music/artists');
+    }
+
+    res.render('artist_delete', {
+      artist,
+      artist_songs,
+      errors: error.array(),
+      title: 'Delete Artist',
+    });
+  }),
+];
 
 module.exports.artist_update_get = asyncHandler(async (req, res, next) => {
   res.send(`NOT IMPLEMENTED: ARTIST UPDATE GET : ID: ${req.params.id}`);
