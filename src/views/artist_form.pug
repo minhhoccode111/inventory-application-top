@@ -25,6 +25,9 @@ block content
       label Artist image:
         | 
         input(type="file", name="avatar" accept="image/*") 
+      if artist !== undefined && artist.thumbnail_extension 
+        p 
+          strong *This artist already has an thumbnail image, send a new file if you wish to update it.
       hr
       button(type="submit") Submit
 

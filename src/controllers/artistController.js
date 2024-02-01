@@ -132,11 +132,15 @@ module.exports.artist_create_post = [
     } else {
       // errors occur and have uploaded an image (and image not throw file size error)
       if (req.isUploaded) {
-        // we are in /src/controllers
+        // then manually unlink it
         const thumbnail_path = path.join(__dirname, `../../public/images/uploads/`, req.body.thumbnail_name);
         await unlink(thumbnail_path);
+        // mark thumbnail_extension back to null
+        artist.thumbnail_extension = null;
         debug('successfully removed file when form validation has errors');
       }
+
+      debug(`after reject creation of this artist: `, artist);
 
       res.render('artist_form', {
         title: 'Create Artist',
@@ -209,7 +213,18 @@ module.exports.artist_delete_post = [
 ];
 
 module.exports.artist_update_get = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: ARTIST UPDATE GET : ID: ${req.params.id}`);
+  const artist = await Artist.findById(req.params.id).exec();
+
+  if (artist === null) {
+    const err = new Error('Artist not found');
+    err.status = 404;
+    next(err);
+  }
+
+  res.render('artist_form', {
+    title: 'Update Artist',
+    artist,
+  });
 });
 
 module.exports.artist_update_post = asyncHandler(async (req, res, next) => {
