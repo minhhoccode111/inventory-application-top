@@ -11,7 +11,7 @@ block content
       form(method="POST" class="flex flex-col gap-3 p-4")
         label Name:*
           | 
-          input(id="name" type="text", name="name" placeholder="Enter song name" minlength="2" required value=(undefined===song?'':song.name)) 
+          input(id="name" type="text", name="name" placeholder="Enter song name" required value=(undefined===song?'':song.name)) 
         br
         label Description:*
           | 
@@ -29,7 +29,7 @@ block content
           p Select artist(s):*
           each artist in artists_list 
             label.block!= artist.name
-              input(type="checkbox" value=artist._id checked=artist.checked)
+              input(type="checkbox" name="artist_checkboxes" value=artist._id checked=artist.checked)
         hr
         button(type="submit") Submit
 

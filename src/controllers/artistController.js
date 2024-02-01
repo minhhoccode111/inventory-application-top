@@ -94,17 +94,18 @@ const uploadWrapper = (req, res, next) => {
 
 module.exports.artist_create_post = [
   uploadWrapper,
-  body('name', 'Name should not be empty.').trim().isLength({ min: 1 }).escape(),
-  body('description', 'Description should not be empty.').trim().isLength({ min: 1 }).escape(),
-  body('added_by', 'Added by should not be empty.').trim().isLength({ min: 1 }).escape(),
+  body('name', 'Name field cannot be empty.').trim().isLength({ min: 1 }).escape(),
+  body('description', 'Description field cannot be empty.').trim().isLength({ min: 1 }).escape(),
+  body('added_by', 'Added by field cannot be empty.').trim().isLength({ min: 1 }).escape(),
   body('personal_rating')
     .trim()
     .isLength({ min: 1 })
-    .withMessage('Personal rating should not be empty.')
+    .withMessage('Personal rating field cannot be empty.')
     .custom((value) => !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 10)
-    .withMessage('Personal rating must between 0 and 10.')
+    .withMessage('Personal rating value must between 0 and 10.')
     .escape(),
   body('avatar')
+    .optional()
     .custom((value, { req }) => !req.isUploadError)
     .withMessage("There's an error with file upload.")
     .custom((value, { req }) => !req.isLimitFileSize)
@@ -125,9 +126,11 @@ module.exports.artist_create_post = [
     });
 
     if (error.isEmpty()) {
+      // save if no error
       await artist.save();
       res.redirect(`/music/artist/${artist._id}`);
     } else {
+      // if error and have uploaded an image
       if (req.body.thumbnail_name !== undefined) {
         // we are in /src/controllers
         const thumbnail_path = path.join(__dirname, `../../public/images/uploads/`, req.body.thumbnail_name);
