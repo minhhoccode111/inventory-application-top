@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-const format = require('./../functions');
-
 const { DateTime } = require('luxon'); // for date handling
 
 const Schema = mongoose.Schema;
@@ -15,7 +13,7 @@ const ArtistSchema = new Schema({
     type: String,
     require: true,
   },
-  thumbnail_extension: String,
+  extension: String,
   added_by: {
     type: String,
     require: true,
@@ -50,9 +48,9 @@ ArtistSchema.virtual('created_at_formatted').get(function () {
   return DateTime.fromJSDate(this.created_at).toLocaleString(DateTime.DATE_MED) + ' - ' + DateTime.fromJSDate(this.created_at).toLocaleString(DateTime.TIME_24_SIMPLE);
 });
 
-ArtistSchema.virtual('thumbnail_name').get(function () {
-  if (this.thumbnail_extension) return format(this.name) + '.' + this.thumbnail_extension;
-  return '';
+ArtistSchema.virtual('image').get(function () {
+  if (this.extension) return this._id + '.' + this.extension;
+  return null;
 });
 
 ArtistSchema.virtual('description_short').get(function () {

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const ArtistController = require('./../controllers/artistController');
+const ArtistPostController = require('./../controllers/artistPostController');
 const SongController = require('./../controllers/songController');
 
 router.get('/', ArtistController.index);
@@ -11,7 +12,7 @@ router.get('/artists', ArtistController.artists_list);
 
 router.get('/artist/create', ArtistController.artist_create_get);
 
-router.post('/artist/create', ArtistController.artist_create_post);
+router.post('/artist/create', ArtistPostController.artist_create_post);
 
 router.get('/artist/:id', ArtistController.artist_detail);
 
@@ -21,7 +22,7 @@ router.post('/artist/:id/delete', ArtistController.artist_delete_post);
 
 router.get('/artist/:id/update', ArtistController.artist_update_get);
 
-router.post('/artist/:id/update', ArtistController.artist_update_post);
+router.post('/artist/:id/update', ArtistPostController.artist_update_post);
 
 /////* HANDLE SONG NAVIGATION */////
 router.get('/songs', SongController.songs_list);

@@ -20,12 +20,12 @@ const songs = [];
 const mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
 
-const artistCreate = async (index, name, description, thumbnail_extension, added_by, personal_rating) => {
-  const artistDetail = { name, description, thumbnail_extension, added_by, personal_rating, created_at: Date.now(), last_modified: Date.now() };
+const artistCreate = async (index, name, description, extension, added_by, personal_rating, _id) => {
+  const artistDetail = { name, description, extension, added_by, personal_rating, created_at: Date.now(), last_modified: Date.now(), _id };
   const artist = new Artist(artistDetail);
   await artist.save();
   artists[index] = artist;
-  custom(`adding ${name}`);
+  custom(`adding: ${name} with _id: ${artist._id}`);
 };
 
 const songCreate = async (index, name, description, artist, added_by, personal_rating) => {
@@ -58,9 +58,9 @@ async function main() {
 }
 
 async function createArtists() {
-  await artistCreate(0, 'Ngọt', `Ngọt - We play music!`, 'jpeg', 'mhc', 10);
-  await artistCreate(1, 'Cá Hồi Hoang', `A rock band playing pop music from Da Lat City, started in 2013. They have released 6 albums.`, 'jpeg', 'mhc', 10);
-  await artistCreate(2, `Phùng Khánh Linh`, `Collab with Cá Hồi Hoang in "Xúc Cảm Bộ Máy"`, null, 'mhc', 9);
+  await artistCreate(0, 'Ngọt', `Ngọt - We play music!`, 'jpeg', 'mhc', 10, 0); // set _id to something i can control
+  await artistCreate(1, 'Cá Hồi Hoang', `A rock band playing pop music from Da Lat City, started in 2013. They have released 6 albums.`, 'jpeg', 'mhc', 10, 1); // set _id to something that i can control
+  await artistCreate(2, `Phùng Khánh Linh`, `Collab with Cá Hồi Hoang in "Xúc Cảm Bộ Máy"`, null, 'mhc', 9); // _id will be undefined and generate by mongoose
 
   const count = await Artist.countDocuments({}).exec();
   custom(`Artist models is having: ${count} documents`);

@@ -3,10 +3,10 @@ extends layout
 block content
   header(class="flex gap-4 items-center justify-between")
     div(class="aspect-square max-w-36 flex justify-center items-center") 
-      if artist.thumbnail_name === ''
+      if artist.image === null
         img(class="object-center object-cover h-full block" src=`/images/default.png`, alt=`Placeholder image 'cause this artist doesn't have one`)
       else 
-        img(class="object-center object-cover h-full block" src=`/images/uploads/${artist.thumbnail_name}`, alt=`${artist.name} image`)
+        img(class="object-center object-cover h-full block" src=`/images/uploads/${artist.image}`, alt=`${artist.name} image`)
     div.flex-1
       h1.text-2xl Delete Artist
         | 
