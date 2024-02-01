@@ -109,10 +109,6 @@ module.exports.artist_create_post = [
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req).array();
 
-    if (req.isLimitFileSize) {
-      errors.push({ msg: `The previous uploaded file is too large` });
-    }
-
     debug(`how error array structure: `, errors);
 
     const artist = new Artist({
@@ -122,8 +118,12 @@ module.exports.artist_create_post = [
       added_by: req.body.added_by,
       description: req.body.description,
       personal_rating: req.body.personal_rating,
-      thumbnail_extension: req.body.thumbnail_extension, // undefined (not uploaded || error) || string (uploaded)
+      thumbnail_extension: req.thumbnail_extension, // undefined (not uploaded || error) || string (uploaded)
     });
+
+    if (req.isLimitFileSize) {
+      errors.push({ msg: `The previous uploaded file is too large (>4MB)` });
+    }
 
     if (errors.length === 0) {
       // save if no error
@@ -135,9 +135,7 @@ module.exports.artist_create_post = [
         // then manually unlink it
         const thumbnail_path = path.join(__dirname, `../../public/images/uploads/`, req.body.thumbnail_name);
         await unlink(thumbnail_path);
-        // mark thumbnail_extension back to null
-        artist.thumbnail_extension = null;
-        debug('successfully removed file when form validation has errors');
+        debug('successfully removed file when form validation has errors', artist, errors);
       }
 
       debug(`after reject creation of this artist: `, artist);
@@ -227,6 +225,13 @@ module.exports.artist_update_get = asyncHandler(async (req, res, next) => {
   });
 });
 
-module.exports.artist_update_post = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: ARTIST UPDATE POST : ID: ${req.params.id}`);
-});
+module.exports.artist_update_post = [
+  //
+  body(),
+  body(),
+  body(),
+  body(),
+  body(),
+  body(),
+  asyncHandler(async (req, res, next) => {}),
+];
