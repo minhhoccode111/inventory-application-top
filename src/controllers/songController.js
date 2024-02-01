@@ -104,7 +104,18 @@ module.exports.song_create_post = [
 ];
 
 module.exports.song_delete_get = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: SONG DELETE GET : ID: ${req.params.id}`);
+  const song = await Song.findById(req.params.id).exec();
+
+  if (song === null) {
+    const err = new Error('Song not found');
+    err.status = 404;
+    next(err);
+  }
+
+  res.render('song_delete', {
+    title: 'Delete Song',
+    song,
+  });
 });
 
 module.exports.song_delete_post = asyncHandler(async (req, res, next) => {

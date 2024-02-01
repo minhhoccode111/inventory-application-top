@@ -1,21 +1,23 @@
 extends layout 
 
 block content
-h1!= `Delete Song: ` + song.name
-p!= 'Desc: ' + song.description
-p!= 'Added by: ' + song.added_by
-p Song rating: #{song.personal_rating}/10
-p.text-right.text-xs
-  i Created At: #{song.created_at_formatted}
-p.text-right.text-xs
-  i Last modified: #{song.last_modified_formatted}
-hr.my-8
+  h1 Delete Song:  
+    | 
+    a(href=song.url)!= song.name
+  p!= 'Desc: ' + song.description
+  p!= 'Added by: ' + song.added_by
+  p Song rating: #{song.personal_rating}/10
+  p.text-right.text-xs
+    i Created At: #{song.created_at_formatted}
+  p.text-right.text-xs
+    i Last modified: #{song.last_modified_formatted}
+  hr.my-8
 
-h2 
-  strong DELETE is a sensitive action. Please enter password to confirm! 
-div 
-  form(action="POST" class="")
-    label Password*:
-      input(type="password" name="password" required) 
-    br
-    button(type="submit") Delete
+  h2 
+    strong DELETE is a sensitive action. Please enter password to confirm! 
+  div 
+    form(method="POST" class="")
+      label Password*:
+        input(type="password" name="password" required) 
+      br
+      button(type="submit" class="text-xl p-4 border rounded-full m-4") Delete
