@@ -7,6 +7,9 @@ const fs = require('fs');
 const path = require('path');
 const extra = require('fs-extra');
 
+// promise based for async/await
+const { readdir, unlink, rmdir } = require('fs/promises');
+
 // database models
 const Artist = require('./../models/artist');
 const Song = require('./../models/song');
@@ -23,6 +26,7 @@ const uploadWrapper = (req, res, next) => {
     if (err) req.hasError = true; // => file + error
     else if (req.file) req.hasError = false; // => file + 0 error
     // else req.hasError = undefined // => 0 file + 0 error
+    print(`An error may occur: `, err);
     next();
   });
 };
@@ -41,7 +45,7 @@ module.exports.artist_create_post = [
     .escape()
     // validate file uploaded here to get proper error message
     .custom((value, { req }) => !req.hasError)
-    .withMessage(`That's file is too large (>4MB)!`),
+    .withMessage(`An error occurs with uploaded file, maybe it's too large (>4MB)!`),
   asyncHandler(async (req, res, next) => {
     const error = validationResult(req);
 
@@ -74,28 +78,31 @@ module.exports.artist_create_post = [
 
       await artist.save();
       res.redirect(`/music/artist/${artist._id}`);
-    }
 
-    // invalid
+      // invalid
+    } else {
+      // a file uploaded
+      if (req.hasError === false) {
+        const dir = path.join(__dirname, `../../public/images/tmp`);
+        // wipe whole tmp dir
+        try {
+          await rmdir(dir, { recursive: true, force: true });
+          print(`Successfully remove ${dir}`);
+        } catch (error) {
+          print(error);
+          throw error;
+        }
+      }
 
-    // a file uploaded
-    if (req.hasError === false) {
-      const dir = path.join(__dirname, `../../public/images/tmp`);
-      // wipe whole tmp dir
-      fs.rm(dir, { recursive: true, force: true }, (err) => {
-        if (err) throw err;
-        print(`${dir} is deleted!`);
+      print(`artist and errors send back to form: `, artist, error);
+
+      // render form again
+      res.render('artist_form', {
+        title: 'Create Artist',
+        artist,
+        errors: error.array(),
       });
     }
-
-    print(`artist and errors send back to form: `, artist, error);
-
-    // render form again
-    res.render('artist_form', {
-      title: 'Create Artist',
-      artist,
-      errors: error.array(),
-    });
   }),
 ];
 
@@ -113,7 +120,7 @@ module.exports.artist_update_post = [
     .escape()
     // validate file uploaded here to get proper error message
     .custom((value, { req }) => !req.hasError)
-    .withMessage(`That's file is too large (>4MB)!`),
+    .withMessage(`An error occurs with uploaded file, maybe it's too large (>4MB)!`),
   asyncHandler(async (req, res, next) => {
     const error = validationResult(req);
 
@@ -153,58 +160,62 @@ module.exports.artist_update_post = [
           print(`have to delete old file manually`);
           const oldFilename = oldArtist._id + '.' + oldExtension;
           const uploadsDir = path.join(__dirname, `../../public/images/uploads`);
-          fs.readdir(uploadsDir, (err, files) => {
-            print(`read in dir: `, uploadsDir);
-            if (err) throw err;
-            files.forEach((file) => {
+          try {
+            const files = await readdir(uploadsDir);
+            print(`all files in uploads dir right now: `, files);
+            files.forEach(async (file) => {
               const filePath = path.join(uploadsDir, file);
               if (file === oldFilename) {
                 print(`found the file to delete: `, file);
-                fs.unlink(filePath, (err) => {
-                  if (err) throw err;
-                  print(`successfully remove file: ${file}`);
-                });
+                await unlink(filePath);
+                print(`successfully remove file: `, file);
               }
             });
-          });
-        } else {
-          // override old file anyway (whether null or not)
-          print(`override old file anyway (whether null or not)`);
-          const newFilename = oldArtist._id + '.' + newExtension;
-          const src = path.join(__dirname, `../../public/images/tmp/${req.file.filename}`);
-          const des = path.join(__dirname, `../../public/images/uploads/${newFilename}`);
-          extra.move(src, des, { overwrite: true }, (err) => {
-            if (err) throw err;
-            print(`successfully move file from ${src} to ${des}`);
-          });
+          } catch (error) {
+            print(error);
+            throw error;
+          }
         }
+        // move new file to uploads dir (after manually delete, if have)
+        // old file have the same name (or null) will be override anyway
+        print(`override old file anyway (whether null or not)`);
+        const newFilename = oldArtist._id + '.' + newExtension;
+        const src = path.join(__dirname, `../../public/images/tmp/${req.file.filename}`);
+        const des = path.join(__dirname, `../../public/images/uploads/${newFilename}`);
+        extra.move(src, des, { overwrite: true }, (err) => {
+          if (err) throw err;
+          print(`successfully move file from ${src} to ${des}`);
+        });
       }
       print(`newly updated artist: `, newArtist);
 
       await Artist.findByIdAndUpdate(req.params.id, newArtist);
       res.redirect(`/music/artist/${req.params.id}`);
-    }
 
-    // invalid
+      // invalid
+    } else {
+      // a file uploaded
+      if (req.hasError === false) {
+        print(`data is invalid and a file is uploaded: `, req.body, req.file);
+        const dir = path.join(__dirname, `../../public/images/tmp`);
+        // wipe whole tmp dir
+        try {
+          await rmdir(dir, { recursive: true, force: true });
+          print(`${dir} is deleted`);
+        } catch (error) {
+          print(error);
+          throw error;
+        }
+      }
 
-    // a file uploaded
-    if (req.hasError === false) {
-      print(`data is invalid and a file is uploaded: `, req.body, req.file);
-      const dir = path.join(__dirname, `../../public/images/tmp`);
-      // wipe whole tmp dir
-      fs.rm(dir, { recursive: true, force: true }, (err) => {
-        if (err) throw err;
-        print(`${dir} is deleted!`);
+      print(`artist and errors send back to form: `, newArtist, error.array());
+
+      // render form again
+      res.render('artist_form', {
+        title: 'Create Artist',
+        artist: newArtist,
+        errors: error.array(),
       });
     }
-
-    print(`artist and errors send back to form: `, newArtist, error.array());
-
-    // render form again
-    res.render('artist_form', {
-      title: 'Create Artist',
-      artist: newArtist,
-      errors: error.array(),
-    });
   }),
 ];
