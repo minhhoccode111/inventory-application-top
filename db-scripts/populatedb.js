@@ -58,8 +58,8 @@ async function main() {
 }
 
 async function createArtists() {
-  await artistCreate(0, 'Ngọt', `Ngọt - We play music!`, 'jpeg', 'mhc', 10, 0); // set _id to something i can control
-  await artistCreate(1, 'Cá Hồi Hoang', `A rock band playing pop music from Da Lat City, started in 2013. They have released 6 albums.`, 'jpeg', 'mhc', 10, 1); // set _id to something that i can control
+  await artistCreate(0, 'Ngọt', `Ngọt - We play music!`, 'jpeg', 'mhc', 10, '222222222222222222222222'); // set _id to something i can control
+  await artistCreate(1, 'Cá Hồi Hoang', `A rock band playing pop music from Da Lat City, started in 2013. They have released 6 albums.`, 'jpeg', 'mhc', 10, '111111111111111111111111'); // set _id to something that i can control
   await artistCreate(2, `Phùng Khánh Linh`, `Collab with Cá Hồi Hoang in "Xúc Cảm Bộ Máy"`, null, 'mhc', 9); // _id will be undefined and generate by mongoose
 
   const count = await Artist.countDocuments({}).exec();

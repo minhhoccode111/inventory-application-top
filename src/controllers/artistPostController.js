@@ -59,7 +59,7 @@ module.exports.artist_create_post = [
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req).array();
 
-    debug(`how error array structure: `, errors);
+    print(`how error array structure: `, errors);
 
     const artist = new Artist({
       name: req.body.name,
@@ -70,6 +70,8 @@ module.exports.artist_create_post = [
       personal_rating: req.body.personal_rating,
       thumbnail_extension: req.thumbnail_extension, // undefined (not uploaded || error) || string (uploaded)
     });
+
+    print(artist._id);
 
     if (req.isLimitFileSize) {
       errors.push({ msg: `Can't handle that huge file! (>4MB)` });
@@ -85,10 +87,10 @@ module.exports.artist_create_post = [
         // then manually unlink it
         const thumbnail_path = path.join(__dirname, `../../public/images/uploads/`, req.body.thumbnail_name);
         await unlink(thumbnail_path);
-        debug('successfully removed file when form validation has errors', artist, errors);
+        print('successfully removed file when form validation has errors', artist, errors);
       }
 
-      debug(`after reject creation of this artist: `, artist);
+      print(`after reject creation of this artist: `, artist);
 
       res.render('artist_form', {
         title: 'Create Artist',

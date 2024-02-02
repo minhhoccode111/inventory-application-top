@@ -49,7 +49,7 @@ ArtistSchema.virtual('created_at_formatted').get(function () {
 });
 
 ArtistSchema.virtual('image').get(function () {
-  if (this.extension) return this._id + '.' + this.extension;
+  if (this.extension !== null) return this._id + '.' + this.extension;
   return null;
 });
 

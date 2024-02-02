@@ -8,7 +8,7 @@ block content
       each artist in artists_list 
         li(class="flex gap-4 justify-between items-center my-2")
           div(class="w-14 h-14 flex justify-center items-center") 
-            if artist.image === ''
+            if artist.image === null
               img(class="object-center object-cover h-full block" src=`/images/default.png`, alt=`Placeholder image 'cause this artist doesn't have one`)
             else 
               img(class="object-center object-cover h-full block" src=`/images/uploads/${artist.image}`, alt=`${artist.name} image`)
