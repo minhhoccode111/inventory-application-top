@@ -1,45 +1,26 @@
+const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const print = require('debug')('artist-post-debug');
+const fs = require('fs');
+const path = require('path');
+const extra = require('fs-extra');
 
 // database models
 const Artist = require('./../models/artist');
 const Song = require('./../models/song');
 
-// custom format string method
-const format = require('./../functions');
-
-// form validation
-const { body, validationResult } = require('express-validator');
-
 // multer to work with file upload
 const multer = require('multer');
+const limits = { fileSize: 1024 * 1024 * 4 }; // 4MB
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'public/images/uploads');
-  },
-  filename: (req, file, cb) => {
-    const thumbnail_extension = file.originalname.split('.')[1];
-
-    const thumbnail_name = format(req.body.name) + '.' + thumbnail_extension;
-
-    cb(null, thumbnail_name);
-
-    req.body.thumbnail_extension = thumbnail_extension;
-
-    req.body.thumbnail_name = thumbnail_name;
-
-    req.isUploaded = true;
-  },
+  destination: 'public/images/tmp',
 });
-const limits = { fileSize: 1024 * 1024 * 4 }; // max 4MB
 const upload = multer({ storage, limits }).single('avatar');
 const uploadWrapper = (req, res, next) => {
   upload(req, res, (err) => {
-    if (err) {
-      req.isUploaded = false;
-      req.thumbnail_extension = null;
-      if (err.code === 'LIMIT_FILE_SIZE') req.isLimitFileSize = true;
-    }
+    if (err) req.hasError = true; // file + error
+    else if (req.file) req.hasError = false; // file + 0 error
+    // else req.hasError = undefined // 0 file + 0 error
     next();
   });
 };
@@ -55,11 +36,14 @@ module.exports.artist_create_post = [
     .withMessage('Personal rating field cannot be empty.')
     .custom((value) => !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 10)
     .withMessage('Personal rating value must between 0 and 10.')
-    .escape(),
+    .escape()
+    // validate file uploaded here to get proper error message
+    .custom((value, { req }) => !req.hasError)
+    .withMessage(`That's file is too large (>4MB)!`),
   asyncHandler(async (req, res, next) => {
-    const errors = validationResult(req).array();
+    const error = validationResult(req);
 
-    print(`how error array structure: `, errors);
+    print(`how error array structure: `, error);
 
     const artist = new Artist({
       name: req.body.name,
@@ -68,36 +52,48 @@ module.exports.artist_create_post = [
       added_by: req.body.added_by,
       description: req.body.description,
       personal_rating: req.body.personal_rating,
-      thumbnail_extension: req.thumbnail_extension, // undefined (not uploaded || error) || string (uploaded)
+      extension: null, // default no file
     });
 
-    print(artist._id);
-
-    if (req.isLimitFileSize) {
-      errors.push({ msg: `Can't handle that huge file! (>4MB)` });
-    }
-
-    if (errors.length === 0) {
-      // save if no error
-      await artist.save();
-      res.redirect(`/music/artist/${artist._id}`);
-    } else {
-      // errors occur and have uploaded an image (and image not throw file size error)
-      if (req.isUploaded) {
-        // then manually unlink it
-        const thumbnail_path = path.join(__dirname, `../../public/images/uploads/`, req.body.thumbnail_name);
-        await unlink(thumbnail_path);
-        print('successfully removed file when form validation has errors', artist, errors);
+    // all valid
+    if (error.isEmpty()) {
+      // has file, save file
+      if (req.hasError === false) {
+        const extension = req.file.originalname.split('.')[1];
+        const src = path.join(__dirname, `../../public/images/tmp/${req.file.filename}`);
+        const des = path.join(__dirname, `../../public/images/uploads/${artist._id + '.' + extension}`);
+        // move from tmp to uploads
+        extra.move(src, des, (err) => {
+          if (err) throw err;
+          print(`successfully move file from ${src} to ${des}`);
+        });
+        artist.extension = extension; // update extension
       }
 
-      print(`after reject creation of this artist: `, artist);
+      await artist.save();
+      res.redirect(`/music/artist/${artist._id}`);
+    }
 
-      res.render('artist_form', {
-        title: 'Create Artist',
-        artist,
-        errors,
+    // invalid
+
+    // a file uploaded
+    if (req.hasError === false) {
+      const dir = path.join(__dirname, `../../public/images/tmp`);
+      // wipe whole tmp dir
+      fs.rm(dir, { recursive: true, force: true }, (err) => {
+        if (err) throw err;
+        print(`${dir} is deleted!`);
       });
     }
+
+    print(`artist and errors send back to form: `, artist, error);
+
+    // render form again
+    res.render('artist_form', {
+      title: 'Create Artist',
+      artist,
+      errors: error.array(),
+    });
   }),
 ];
 
