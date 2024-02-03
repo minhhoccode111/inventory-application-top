@@ -158,9 +158,10 @@ module.exports.song_update_get = asyncHandler(async (req, res, next) => {
   print(`all artists are: `, artistsList);
 
   res.render('song_form', {
-    title: 'Update Song',
     song,
     artistsList,
+    isUpdate: true,
+    title: 'Update Song',
   });
 });
 
@@ -187,6 +188,12 @@ module.exports.song_update_post = [
   body('artist_checkboxes', `The song must have at least 1 artist`)
     .custom((value) => value.length > 0)
     .escape(),
+  body('password')
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Password cannot be empty or all spaces!')
+    .custom((value) => value === process.env.PASSWORD)
+    .withMessage(`INCORRECT PASSWORD, please try something else!`),
   asyncHandler(async (req, res, next) => {
     const error = validationResult(req);
 
@@ -224,8 +231,9 @@ module.exports.song_update_post = [
       // invalid
     } else {
       res.render('song_form', {
-        song: newSong,
         artistsList,
+        song: newSong,
+        isUpdate: true,
         title: 'Update Song',
         errors: error.array(),
       });

@@ -28,6 +28,13 @@ block content
       if artist !== undefined && artist.image 
         p 
           strong *This artist already has an image, send a new one if you wish to update it.
+      br
+      if isUpdate
+        h2 
+          strong UPDATE is a sensitive action. Please enter password to confirm! 
+        label Password*:
+          input(type="password" name="password" required) 
+        br
       hr
       button(type="submit") Submit
 

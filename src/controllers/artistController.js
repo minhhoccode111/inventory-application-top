@@ -130,6 +130,7 @@ module.exports.artist_update_get = asyncHandler(async (req, res, next) => {
 
   res.render('artist_form', {
     title: 'Update Artist',
+    isUpdate: true,
     artist,
   });
 });

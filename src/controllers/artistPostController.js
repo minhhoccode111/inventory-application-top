@@ -126,6 +126,12 @@ module.exports.artist_update_post = [
     // validate file uploaded here to get proper error message
     .custom((value, { req }) => !req.hasError)
     .withMessage(`An error occurs with uploaded file, maybe it's too large (>4MB)!`),
+  body('password')
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Password cannot be empty or all spaces!')
+    .custom((value) => value === process.env.PASSWORD)
+    .withMessage(`INCORRECT PASSWORD, please try something else!`),
   asyncHandler(async (req, res, next) => {
     const error = validationResult(req);
 
@@ -221,9 +227,10 @@ module.exports.artist_update_post = [
 
       // render form again
       res.render('artist_form', {
-        title: 'Create Artist',
+        isUpdate: true,
         artist: newArtist,
         errors: error.array(),
+        title: 'Create Artist',
       });
     }
   }),
