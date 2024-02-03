@@ -84,10 +84,15 @@ module.exports.artist_create_post = [
       // a file uploaded
       if (req.hasError === false) {
         const dir = path.join(__dirname, `../../public/images/tmp`);
-        // wipe whole tmp dir
+        // unlink every file in dir
         try {
-          await rmdir(dir, { recursive: true, force: true });
-          print(`Successfully remove ${dir}`);
+          const files = await readdir(dir);
+          files.forEach(async (file) => {
+            const filePath = path.join(dir, file);
+            print(`about to remove ${filePath} in dir`);
+            await unlink(filePath);
+            print(`successfully remove ${filePath} file`);
+          });
         } catch (error) {
           print(error);
           throw error;
@@ -196,12 +201,16 @@ module.exports.artist_update_post = [
     } else {
       // a file uploaded
       if (req.hasError === false) {
-        print(`data is invalid and a file is uploaded: `, req.body, req.file);
         const dir = path.join(__dirname, `../../public/images/tmp`);
-        // wipe whole tmp dir
+        // unlink every file in dir
         try {
-          await rmdir(dir, { recursive: true, force: true });
-          print(`${dir} is deleted`);
+          const files = await readdir(dir);
+          files.forEach(async (file) => {
+            const filePath = path.join(dir, file);
+            print(`about to remove ${filePath} in dir`);
+            await unlink(filePath);
+            print(`successfully remove ${filePath} file`);
+          });
         } catch (error) {
           print(error);
           throw error;
