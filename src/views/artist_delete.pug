@@ -20,11 +20,11 @@ block content
         i Last modified: #{artist.last_modified_formatted}
   hr.my-8
 
-  if artist_songs.length !== 0
+  if artistSongs.length !== 0
     p 
       strong Please delete the following song(s) before trying to delete this artist!
       ul.list-disc
-        each song in artist_songs
+        each song in artistSongs
           li
             a(href=song.url)!= song.name
 

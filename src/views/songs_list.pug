@@ -3,9 +3,9 @@ extends layout
 block content
   h1= title
   hr
-  if songs_list.length !== 0
+  if songsList.length !== 0
     ul.list-disc 
-      each song in songs_list 
+      each song in songsList 
         li
           h2 
             a(href=song.url)!= song.name 

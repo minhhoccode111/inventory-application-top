@@ -32,7 +32,7 @@ module.exports.artists_list = asyncHandler(async (req, res, next) => {
 });
 
 module.exports.artist_detail = asyncHandler(async (req, res, next) => {
-  const [artist, artist_songs] = await Promise.all([
+  const [artist, artistSongs] = await Promise.all([
     Artist.findById(req.params.id).exec(),
     Song.find({ artist: { $in: req.params.id } }, 'name url personal_rating')
       .populate({ path: 'artist', select: 'name url' })
@@ -47,7 +47,7 @@ module.exports.artist_detail = asyncHandler(async (req, res, next) => {
 
   res.render('artist_detail', {
     artist,
-    artist_songs,
+    artistSongs,
     title: 'Artist Detail',
   });
 });
@@ -59,7 +59,7 @@ module.exports.artist_create_get = (req, res, next) => {
 };
 
 module.exports.artist_delete_get = asyncHandler(async (req, res, next) => {
-  const [artist, artist_songs] = await Promise.all([Artist.findById(req.params.id).exec(), Song.find({ artist: { $in: req.params.id } }, 'name').exec()]);
+  const [artist, artistSongs] = await Promise.all([Artist.findById(req.params.id).exec(), Song.find({ artist: { $in: req.params.id } }, 'name').exec()]);
 
   if (artist === null) {
     const err = new Error('Artist not found');
@@ -70,7 +70,7 @@ module.exports.artist_delete_get = asyncHandler(async (req, res, next) => {
   res.render('artist_delete', {
     title: 'Delete Artist',
     artist,
-    artist_songs,
+    artistSongs,
   });
 });
 
@@ -85,7 +85,7 @@ module.exports.artist_delete_post = [
     const error = validationResult(req);
 
     // check for existence
-    const [artist, artist_songs] = await Promise.all([Artist.findById(req.params.id).exec(), Song.find({ artist: { $in: req.params.id } }, 'name').exec()]);
+    const [artist, artistSongs] = await Promise.all([Artist.findById(req.params.id).exec(), Song.find({ artist: { $in: req.params.id } }, 'name').exec()]);
 
     if (artist === null) {
       const err = new Error('Artist not found');
@@ -112,7 +112,7 @@ module.exports.artist_delete_post = [
 
     res.render('artist_delete', {
       artist,
-      artist_songs,
+      artistSongs,
       errors: error.array(),
       title: 'Delete Artist',
     });

@@ -4,7 +4,7 @@ block link
 
 block content
   h1= title
-  if artists_list.length === 0
+  if artistsList.length === 0
     p!= "We must have at least 1 artist to create songs!"
   else
     div
@@ -27,7 +27,7 @@ block content
         br
         div
           p Select artist(s):*
-          each artist in artists_list 
+          each artist in artistsList 
             label.block!= artist.name
               input(type="checkbox" name="artist_checkboxes" value=artist._id checked=artist.checked)
         hr
