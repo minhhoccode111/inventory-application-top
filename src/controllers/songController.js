@@ -164,6 +164,71 @@ module.exports.song_update_get = asyncHandler(async (req, res, next) => {
   });
 });
 
-module.exports.song_update_post = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: SONG UPDATE POST : ID: ${req.params.id}`);
-});
+module.exports.song_update_post = [
+  (req, res, next) => {
+    // convert checkboxes values to array
+    const body = req.body;
+    if (!Array.isArray(body.artist_checkboxes)) {
+      if (body.artist_checkboxes === undefined) body.artist_checkboxes = [];
+      else body.artist_checkboxes = [body.artist_checkboxes];
+    }
+    next();
+  },
+
+  body('name', 'Name field cannot be empty.').trim().isLength({ min: 1 }).escape(),
+  body('description', 'Description field cannot be empty').trim().isLength({ min: 1 }).escape(),
+  body('added_by', 'Added by field cannot be empty').trim().isLength({ min: 1 }).escape(),
+  body('personal_rating')
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage('Personal rating field cannot be empty')
+    .custom((value) => !isNaN(Number(value)) && Number(value) >= 0 && Number(value) <= 10)
+    .withMessage('Personal rating value must be between 0 and 10'),
+  body('artist_checkboxes', `The song must have at least 1 artist`)
+    .custom((value) => value.length > 0)
+    .escape(),
+  asyncHandler(async (req, res, next) => {
+    const error = validationResult(req);
+
+    // const artistsList = await Artist.find({}, 'name').exec();
+    const [oldSong, artistsList] = await Promise.all([Song.findById(req.params.id).exec(), Artist.find({}, 'name').exec()]);
+
+    // check existence
+    if (oldSong === null) {
+      const err = new Error('Song not found');
+      err.status = 404;
+      next(err);
+    }
+
+    // mark the ones that have been checked previously
+    artistsList.forEach((artist) => (artist.checked = req.body.artist_checkboxes.includes(artist._id.toString())));
+
+    print(artistsList);
+
+    const newSong = new Song({
+      name: req.body.name,
+      description: req.body.description,
+      added_by: req.body.added_by,
+      personal_rating: req.body.personal_rating,
+      created_at: oldSong.created_at, // keep
+      last_modified: Date.now(),
+      artist: artistsList,
+      _id: oldSong._id, // keep
+    });
+
+    // all valid
+    if (error.isEmpty()) {
+      await Song.findByIdAndUpdate(req.params.id, newSong);
+      res.redirect(`/music/song/${req.params.id}`);
+
+      // invalid
+    } else {
+      res.render('song_form', {
+        song: newSong,
+        artistsList,
+        title: 'Update Song',
+        errors: error.array(),
+      });
+    }
+  }),
+];
