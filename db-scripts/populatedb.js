@@ -60,31 +60,30 @@ async function main() {
 async function createArtists() {
   await artistCreate(0, 'Ngọt', `Ngọt - We play music!`, 'jpeg', 'mhc', 10, '222222222222222222222222'); // set _id to something i can control
   await artistCreate(1, 'Cá Hồi Hoang', `A rock band playing pop music from Da Lat City, started in 2013. They have released 6 albums.`, 'jpeg', 'mhc', 10, '111111111111111111111111'); // set _id to something that i can control
-  await artistCreate(2, `Phùng Khánh Linh`, `Collab with Cá Hồi Hoang in "Xúc Cảm Bộ Máy"`, null, 'mhc', 9); // _id will be undefined and generate by mongoose
+  await artistCreate(2, `Phùng Khánh Linh`, `Collab with Cá Hồi Hoang in &quot;Xúc Cảm Bộ Máy&quot;`, null, 'mhc', 9); // _id will be undefined and generate by mongoose
 
   const count = await Artist.countDocuments({}).exec();
   custom(`Artist models is having: ${count} documents`);
 }
 
 async function createSongs() {
-  await songCreate(0, 'LẦN CUỐI (đi bên em xót xa người ơi)', `Taken from the album "3" (a collection of vibrant new Ngọt songs in 2019).`, [artists[0]], 'mhc', 10);
+  await songCreate(0, 'LẦN CUỐI (đi bên em xót xa người ơi)', `Taken from the album &quot;3&quot; (a collection of vibrant new Ngọt songs in 2019).`, [artists[0]], 'mhc', 10);
 
   await songCreate(
     1,
     `Thấy Chưa`,
-    `"Thấy Chưa" is a power ballad that delves into the emotions leading up to a farewell moment. The lyrics provide consolation and hold hopes for a positive future awaiting the girl in the song's narrative.`,
+    `&quot;Thấy Chưa&quot; is a power ballad that delves into the emotions leading up to a farewell moment. The lyrics provide consolation and hold hopes for a positive future awaiting the girl in the song's narrative.`,
     [artists[0]],
     'mhc',
     10
   );
 
-  await songCreate(2, 'Không Điều Kiện', `"Không Điều Kiện" is the 16th track in the 6th studio album of the band titled "Chúng Ta Đều Muốn Một Thứ."`, [artists[1]], 'mhc', 10);
+  await songCreate(2, 'Không Điều Kiện', `&quot;Không Điều Kiện&quot; is the 16th track in the 6th studio album of the band titled &quot;Chúng Ta Đều Muốn Một Thứ.&quot;`, [artists[1]], 'mhc', 10);
 
   await songCreate(
     3,
     'Hết Mực',
-    `"Hết Mực" is a song from the album "Gấp," initially planned as the final album of Cá Hồi Hoang when the group faced some difficulties. Some members left the band and wanted to abandon the musical path. However, right after the album's release, it unexpectedly achieved success, motivating the entire group to continue their music career until now.
-    Thành Luke, the person who shared the song, mentioned that it accurately reflects his emotions at that time, just like a pen running out of ink. Amidst the pressure from within himself and the uncertainty about the group's future direction.`,
+    `&quot;Hết Mực&quot; is a song from the album &quot;Gấp,&quot; initially planned as the final album of Cá Hồi Hoang when the group faced some difficulties. Some members left the band and wanted to abandon the musical path. However, right after the album's release, it unexpectedly achieved success, motivating the entire group to continue their music career until now. Thành Luke, the person who shared the song, mentioned that it accurately reflects his emotions at that time, just like a pen running out of ink. Amidst the pressure from within himself and the uncertainty about the group's future direction.`,
     [artists[1]],
     'mhc',
     10
@@ -93,7 +92,7 @@ async function createSongs() {
   await songCreate(
     4,
     'Xúc Cảm Bộ Máy',
-    'The song "Xúc Cảm Bộ Máy" by Cá Hồi Hoang explores the thoughts and emotions that arise when confronted with the uncertainties of the future and the fear of losing love.',
+    'The song &quot;Xúc Cảm Bộ Máy&quot; by Cá Hồi Hoang explores the thoughts and emotions that arise when confronted with the uncertainties of the future and the fear of losing love.',
     [artists[1], artists[2]],
     'mhc',
     10
