@@ -1,26 +1,38 @@
 # Gimme Music (Inventory Application TOP)
 
-The **Gimme Music** application is created according to the assignment from **The Odin Project** [course](https://www.theodinproject.com/lessons/nodejs-inventory-application#project-solution).
+The **Gimme Music** application is created according to the assignment from **The Odin Project** [course](https://www.theodinproject.com/lessons/nodejs-inventory-application).
 <br>
 <br>
 
 ## Screenshot
 
-![Gimme Music Screenshot](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse2.mm.bing.net%2Fth%3Fid%3DOIP.vfh1468tuemHO2WidDnX4QHaDZ%26pid%3DApi&f=1&ipt=c4fc99d3276cdba2bccf02519c4911d94b2f6c42981bafb14db18fe2b9188bb1&ipo=images)
+<!-- ![Gimme Music Screenshot]() -->
 
 ## **Features**
 
-- Feature 0
-- Feature 1
-- Feature 2
+- CRUD actions
+- Upload images
+- Password
+- Backend validation
 
 ## **Outcome**
 
-- Used **Something 0**
-- Used **Something 1**
-- Learned how to something 0
-- Learned how to something 1
-- A more detail note about how I solve this can be found [here](NOTE.md)
+- Used **NodeJs**
+- Used **Express** (controllers)
+- Used **MongoDb Atlas**
+- Used **mongoose** (models)
+- Used **pug** (views)
+- Used **express-validator** (form, password validation)
+- Used **luxon** (date)
+- Used **multer** (file upload)
+- Used **bootstrap** (style)
+- Used **tailwind**
+- Used **debug**
+- Used **fs-extra** (move file)
+- Used **fs/promises** (work with files)
+- Used **dotenv** (environment variables)
+- Learned to debug a lot of `multer` cases
+- A more detail note about this problem can be found [here](NOTE.md)
 
 ## **Getting Started**
 

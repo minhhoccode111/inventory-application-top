@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler');
-const debug = require('debug')('custom-debug');
+const print = require('debug')('custom-debug');
 
 // to remove files
 const { unlink } = require('node:fs/promises');
@@ -12,8 +12,6 @@ const { body, validationResult } = require('express-validator');
 
 module.exports.index = asyncHandler(async (req, res, next) => {
   const [artists, songs] = await Promise.all([Artist.countDocuments({}).exec(), Song.countDocuments({}).exec()]);
-
-  debug(artists, songs);
 
   res.render('index', {
     title: 'Gimme music',
@@ -100,9 +98,8 @@ module.exports.artist_delete_post = [
         const image_path = path.join(__dirname, `../../public/images/uploads/`, artist.image);
         try {
           await unlink(image_path);
-          debug('successfully removed file when form validation has errors');
         } catch (err) {
-          debug(err);
+          print(err);
         }
       }
 

@@ -1,9 +1,8 @@
 const { body, validationResult } = require('express-validator');
 const asyncHandler = require('express-async-handler');
-const print = require('debug')('artist-post-debug');
+const print = require('debug')('custom-debug');
 
 // work with files
-const fs = require('fs');
 const path = require('path');
 const extra = require('fs-extra');
 
@@ -12,11 +11,10 @@ const { readdir, unlink, rmdir } = require('fs/promises');
 
 // database models
 const Artist = require('./../models/artist');
-const Song = require('./../models/song');
 
 // multer to work with file upload
 const multer = require('multer');
-const limits = { fileSize: 1024 * 1024 * 4 }; // 4MB
+const limits = { fileSize: 1024 * 1024 * 2 }; // 2MB
 const storage = multer.diskStorage({
   destination: 'public/images/tmp',
 });
@@ -26,7 +24,7 @@ const uploadWrapper = (req, res, next) => {
     if (err) req.hasError = true; // => file + error
     else if (req.file) req.hasError = false; // => file + 0 error
     // else req.hasError = undefined // => 0 file + 0 error
-    print(`An error may occur: `, err);
+    // print(`An error may occur: `, err);
     next();
   });
 };
@@ -45,11 +43,11 @@ module.exports.artist_create_post = [
     .escape()
     // validate file uploaded here to get proper error message
     .custom((value, { req }) => !req.hasError)
-    .withMessage(`An error occurs with uploaded file, maybe it's too large (>4MB)!`),
+    .withMessage(`An error occurs with uploaded file, maybe it's too large (>2MB)!`),
   asyncHandler(async (req, res, next) => {
     const error = validationResult(req);
 
-    print(`how error array structure: `, error);
+    // print(`how error array structure: `, error);
 
     const artist = new Artist({
       name: req.body.name,
@@ -71,7 +69,7 @@ module.exports.artist_create_post = [
         // move from tmp to uploads
         extra.move(src, des, (err) => {
           if (err) throw err;
-          print(`successfully move file from ${src} to ${des}`);
+          // print(`successfully move file from ${src} to ${des}`);
         });
         artist.extension = extension; // update extension
       }
@@ -89,9 +87,9 @@ module.exports.artist_create_post = [
           const files = await readdir(dir);
           files.forEach(async (file) => {
             const filePath = path.join(dir, file);
-            print(`about to remove ${filePath} in dir`);
+            // print(`about to remove ${filePath} in dir`);
             await unlink(filePath);
-            print(`successfully remove ${filePath} file`);
+            // print(`successfully remove ${filePath} file`);
           });
         } catch (error) {
           print(error);
@@ -99,7 +97,7 @@ module.exports.artist_create_post = [
         }
       }
 
-      print(`artist and errors send back to form: `, artist, error);
+      // print(`artist and errors send back to form: `, artist, error);
 
       // render form again
       res.render('artist_form', {
@@ -125,7 +123,7 @@ module.exports.artist_update_post = [
     .escape()
     // validate file uploaded here to get proper error message
     .custom((value, { req }) => !req.hasError)
-    .withMessage(`An error occurs with uploaded file, maybe it's too large (>4MB)!`),
+    .withMessage(`An error occurs with uploaded file, maybe it's too large (>2MB)!`),
   body('password')
     .trim()
     .isLength({ min: 1 })
@@ -158,28 +156,28 @@ module.exports.artist_update_post = [
 
     // all valid
     if (error.isEmpty()) {
-      print('all valid');
+      // print('all valid');
       // has file, save file information
       if (req.hasError === false) {
-        print(`has file, save file information`, req.file, req.body);
+        // print(`has file, save file information`, req.file, req.body);
         const newExtension = req.file.originalname.split('.')[1];
         const oldExtension = oldArtist.extension; // null?
         newArtist.extension = newExtension; // update extension
 
         // delete old file manually
         if (newExtension !== oldExtension && oldExtension !== null) {
-          print(`have to delete old file manually`);
+          // print(`have to delete old file manually`);
           const oldFilename = oldArtist._id + '.' + oldExtension;
           const uploadsDir = path.join(__dirname, `../../public/images/uploads`);
           try {
             const files = await readdir(uploadsDir);
-            print(`all files in uploads dir right now: `, files);
+            // print(`all files in uploads dir right now: `, files);
             files.forEach(async (file) => {
               const filePath = path.join(uploadsDir, file);
               if (file === oldFilename) {
-                print(`found the file to delete: `, file);
+                // print(`found the file to delete: `, file);
                 await unlink(filePath);
-                print(`successfully remove file: `, file);
+                // print(`successfully remove file: `, file);
               }
             });
           } catch (error) {
@@ -189,16 +187,16 @@ module.exports.artist_update_post = [
         }
         // move new file to uploads dir (after manually delete, if have)
         // old file have the same name (or null) will be override anyway
-        print(`override old file anyway (whether null or not)`);
+        // print(`override old file anyway (whether null or not)`);
         const newFilename = oldArtist._id + '.' + newExtension;
         const src = path.join(__dirname, `../../public/images/tmp/${req.file.filename}`);
         const des = path.join(__dirname, `../../public/images/uploads/${newFilename}`);
         extra.move(src, des, { overwrite: true }, (err) => {
           if (err) throw err;
-          print(`successfully move file from ${src} to ${des}`);
+          // print(`successfully move file from ${src} to ${des}`);
         });
       }
-      print(`newly updated artist: `, newArtist);
+      // print(`newly updated artist: `, newArtist);
 
       await Artist.findByIdAndUpdate(req.params.id, newArtist);
       res.redirect(`/music/artist/${req.params.id}`);
@@ -213,9 +211,9 @@ module.exports.artist_update_post = [
           const files = await readdir(dir);
           files.forEach(async (file) => {
             const filePath = path.join(dir, file);
-            print(`about to remove ${filePath} in dir`);
+            // print(`about to remove ${filePath} in dir`);
             await unlink(filePath);
-            print(`successfully remove ${filePath} file`);
+            // print(`successfully remove ${filePath} file`);
           });
         } catch (error) {
           print(error);
@@ -223,7 +221,7 @@ module.exports.artist_update_post = [
         }
       }
 
-      print(`artist and errors send back to form: `, newArtist, error.array());
+      // print(`artist and errors send back to form: `, newArtist, error.array());
 
       // render form again
       res.render('artist_form', {

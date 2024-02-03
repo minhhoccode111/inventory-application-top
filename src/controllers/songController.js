@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler');
-const print = require('debug')('debug-custom');
+// const print = require('debug')('custom-debug');
 
 const Artist = require('./../models/artist');
 const Song = require('./../models/song');
@@ -18,7 +18,7 @@ module.exports.songs_list = asyncHandler(async (req, res, next) => {
 module.exports.song_detail = asyncHandler(async (req, res, next) => {
   const song = await Song.findById(req.params.id).populate({ path: 'artist', select: 'name url' }).exec();
 
-  print(song);
+  // print(song);
 
   if (song === null) {
     const err = new Error('Song not found');
@@ -35,7 +35,7 @@ module.exports.song_detail = asyncHandler(async (req, res, next) => {
 module.exports.song_create_get = asyncHandler(async (req, res, next) => {
   const artistsList = await Artist.find({}, 'name').exec();
 
-  print(artistsList);
+  // print(artistsList);
 
   res.render('song_form', {
     title: 'Create Song',
@@ -75,7 +75,7 @@ module.exports.song_create_post = [
       if (req.body.artist_checkboxes.includes(artist._id.toString())) artist.checked = true;
     });
 
-    print(artistsList);
+    // print(artistsList);
     const song = new Song({
       name: req.body.name,
       description: req.body.description,
@@ -129,7 +129,7 @@ module.exports.song_delete_post = [
     // check for existence
     const song = await Song.findById(req.params.id).exec();
 
-    print('song we try do delete', song);
+    // print('song we try do delete', song);
     if (song === null) {
       const err = new Error('Song not found');
       err.status = 404;
@@ -154,8 +154,8 @@ module.exports.song_update_get = asyncHandler(async (req, res, next) => {
 
   artistsList.forEach((artist) => (artist.checked = song.artist.includes(artist._id)));
 
-  print(`the song is: `, song);
-  print(`all artists are: `, artistsList);
+  // print(`the song is: `, song);
+  // print(`all artists are: `, artistsList);
 
   res.render('song_form', {
     song,
@@ -210,7 +210,7 @@ module.exports.song_update_post = [
     // mark the ones that have been checked previously
     artistsList.forEach((artist) => (artist.checked = req.body.artist_checkboxes.includes(artist._id.toString())));
 
-    print(artistsList);
+    // print(artistsList);
 
     const newSong = new Song({
       name: req.body.name,
