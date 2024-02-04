@@ -1,0 +1,32 @@
+extends layout
+
+block link
+
+block content
+  header(class="")
+    h2(class="font-bold font-mono my-2") About
+
+  section(class="") 
+    h3(class="font-bold font-mono my-2 text-sm") This project
+    table(class="text-xs") 
+      tr 
+        th(class="text-left p-1") Built with
+        td Express, mongoose, multer, tailwind...
+      tr 
+        th(class="text-left p-1") Database
+        td Atlas MongoDB
+      tr 
+        th(class="text-left p-1") Hosted with
+        td Glitch
+      tr
+        th(class="text-left p-1") Assignment
+        td 
+          a(href="https://www.theodinproject.com/lessons/nodejs-inventory-application") Odin - Nodejs course - Inventory Application
+      tr
+        th(class="text-left p-1") Source code
+        td 
+          a(href="https://github.com/minhhoccode111/inventory-application-top") Github
+      
+    h3(class="font-bold font-mono my-2 text-sm") Me
+    p(class="text-xs p-1") A self-taught developer likes to solve problems. 
+
