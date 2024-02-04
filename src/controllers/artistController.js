@@ -27,11 +27,11 @@ module.exports.about = (req, res, next) => {
 };
 
 module.exports.artists_list = asyncHandler(async (req, res, next) => {
-  const artists_list = await Artist.find({}).exec();
+  const artistsList = await Artist.find({}, 'name').exec();
 
   res.render('artists_list', {
     title: 'Artists',
-    artists_list,
+    artistsList,
   });
 });
 

@@ -1,11 +1,12 @@
 extends layout 
 
 block content
-  h1= title
-  hr
-  if artists_list.length !== 0
-    ul.list-disc 
-      each artist in artists_list 
+  h2(class="") Artists
+
+  
+  if artistsList.length !== 0
+    ul(class="max-w-lg mx-auto border")
+      each artist in artistsList 
         li(class="flex gap-4 justify-between items-center my-2")
           div(class="w-14 h-14 flex justify-center items-center") 
             if artist.image === null
