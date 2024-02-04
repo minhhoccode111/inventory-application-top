@@ -3,12 +3,13 @@ extends layout
 block link
 
 block content
-  ul(class="list-disc")
+  ul(class="flex items-center justify-evenly max-w-sm mx-auto font-bold")
     li  
       |All
       | 
       a(href="/music/artists") artists
       |: #{artists}
+    li |
     li 
       |All
       | 

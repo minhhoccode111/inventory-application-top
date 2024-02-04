@@ -1,6 +1,8 @@
 extends layout
 
 block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+  section(class="flex gap-4 items-center justify-center font-bold text-xl font-serif h-full")
+    h2(class="")= message
+    ||
+    h3(class="")= error.status
+  //- pre #{error.stack}
