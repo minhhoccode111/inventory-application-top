@@ -27,7 +27,9 @@ module.exports.about = (req, res, next) => {
 };
 
 module.exports.artists_list = asyncHandler(async (req, res, next) => {
-  const artistsList = await Artist.find({}, 'name').exec();
+  const artistsList = await Artist.find({}).exec();
+
+  print(artistsList);
 
   res.render('artists_list', {
     title: 'Artists',

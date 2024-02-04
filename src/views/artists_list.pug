@@ -2,10 +2,9 @@ extends layout
 
 block content
   h2(class="") Artists
-
   
   if artistsList.length !== 0
-    ul(class="max-w-lg mx-auto border")
+    ul(class="max-w-xl mx-auto border p-4")
       each artist in artistsList 
         li(class="flex gap-4 justify-between items-center my-2")
           div(class="w-14 h-14 flex justify-center items-center") 
