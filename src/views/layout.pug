@@ -14,30 +14,34 @@ html
     //- our custom javascript and css files
     block link
   body
-    div#wrapper(class="h-screen flex flex-col justify-between items-center gap-4")
-      header
-        //- h1(class="text-4xl text-center")= title 
-        ul(class="flex items-center justify-between gap-4")
-          li 
-            a(href="/music/") Index
-          li 
-            a(href="/music/artists") Artists
+    div#wrapper(class="min-h-screen flex flex-col justify-between gap-4 text-dark")
+      header(class="flex justify-between gap-4 p-2 shadow-xl")
+        h1(class="font-extrabold text-lg font-mono") 
+          a(href="/music") Gimme music 
+        nav(class="text-xs flex-1 text-right font-serif")
+          ul(class="grid grid-cols-3 gap-3 transition-all")
+            li(class="") 
+              a(class="text-sky-500 hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" href="/music/") Home
+            li(class="") 
+              a(class="text-sky-500 hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" href="/music/artists") Artists
+            li(class="5")
+              a(class="text-sky-500 hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" href="/music/songs") Songs      
+          
+            li(class="") 
+              a(class="text-sky-500 hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" href="/music/about") About  
+            li(class="") 
+              a(class="text-sky-500 hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" href="/music/artist/create") Add artist      
+            li(class="") 
+              a(class="text-sky-500 hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" href="/music/song/create") Add song  
 
-          li 
-            a(href="/music/songs") Songs      
-
-          li 
-            a(href="/music/artist/create") Create artist      
-
-          li 
-            a(href="/music/song/create") Create song  
-
-      main(class="flex-1 max-w-2xl w-full mx-auto")
+      main(class="flex-1")
         block content 
 
-      //- footer 
-      //-   p(class="text-center")
-      //-   | Made with love by 
-      //-   |
-      //-   a(href="https://github.com/minhhoccode111/") minhhoccode111
-      //-   |.
+      footer(class="p-2 flex items-center justify-center") 
+        p(class="text-xs")
+          a(class="text-sky-500 hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold font-mono" href="https://github.com/minhhoccode111/inventory-application-top/") This project
+          |is made with 
+          span(class="text-red-400") love 
+          |by
+          a(class="text-sky-500 hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold font-mono" href="https://github.com/minhhoccode111/") minhhoccode111
+          |.

@@ -7,6 +7,9 @@ module.exports = {
         sans: ['Graphik', 'sans-serif'],
         serif: ['Merriweather', 'serif'],
       },
+      colors: {
+        dark: `rgb(2 6 23)`,
+      },
     },
   },
   plugins: [],

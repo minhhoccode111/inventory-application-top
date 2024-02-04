@@ -7,6 +7,8 @@ const SongController = require('./../controllers/songController');
 
 router.get('/', ArtistController.index);
 
+router.get('/about', ArtistController.about);
+
 /////* HANDLE ARTIST NAVIGATION */////
 router.get('/artists', ArtistController.artists_list);
 

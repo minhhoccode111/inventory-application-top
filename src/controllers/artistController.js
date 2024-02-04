@@ -20,6 +20,12 @@ module.exports.index = asyncHandler(async (req, res, next) => {
   });
 });
 
+module.exports.about = (req, res, next) => {
+  res.render('about', {
+    title: 'About',
+  });
+};
+
 module.exports.artists_list = asyncHandler(async (req, res, next) => {
   const artists_list = await Artist.find({}).exec();
 
