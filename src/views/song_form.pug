@@ -33,10 +33,10 @@ block content
               label(class="whitespace-nowrap" for=artist._id)!= artist.name
         if isUpdate
           div(class="flex flex-col gap-2 my-2")
-            h3(class="text-xs") 
-              strong UPDATE is a sensitive action. Please enter password to confirm! 
             label(for="password" class="font-bold") Password*:
             input(class="shadow-md focus:border-t border-sky-500 transition-all text-sm p-2 shadow-gray-300 focus:outline-none focus:shadow-gray-500 hover:shadow-gray-500 rounded-md" type="password" id="password" name="password" placeholder="super secret password" required) 
+            h3(class="text-xs") 
+              strong *UPDATE is a sensitive action. Please enter password to confirm! 
         div(class="grid place-items-center my-2")
           button(type="submit" class="px-8 py-2 bg-green-600 text-white hover:text-green-600 hover:bg-white transition-all border rounded-lg border-green-900") Submit
 

@@ -3,44 +3,39 @@ extends layout
 block link
 
 block content
-  h1= title
+  h2(class="font-bold text-lg")= title
   div
-    form(method="POST" enctype="multipart/form-data" class="flex flex-col gap-3 p-4")
-      label Name:*
-        | 
-        input(id="name" type="text", name="name" placeholder="Enter artist name" required value!=(undefined===artist?'':artist.name)) 
-      br
-      label Description:*
-        | 
-        input(type="text", name="description" placeholder="Once upon a time..." required value!=(undefined===artist?'':artist.description))  
-      br
-      label Added by:*
-        | 
-        input(type="text", name="added_by" placeholder="Enter your name" required value!=(undefined===artist?'':artist.added_by)) 
-      br
-      label Personal rating:*
-        | 
-        input(type="number", name="personal_rating" placeholder="10" required value!=(undefined===artist?'':artist.personal_rating)) 
-      br
-      label Artist image:
-        | 
+    form(method="POST" enctype="multipart/form-data" class="p-2")
+      div(class="flex flex-col gap-2 my-2")
+        label(for="name" class="font-bold") Name:*
+        input(class="shadow-md focus:border-t border-sky-500 transition-all text-sm p-2 shadow-gray-300 focus:outline-none focus:shadow-gray-500 hover:shadow-gray-500 rounded-md" id="name" type="text", name="name" placeholder="Enter artist name" required value!=(undefined===artist?'':artist.name)) 
+      div(class="flex flex-col gap-2 my-2")
+        label(for="description" class="font-bold") Description:*
+        textarea(class="shadow-md focus:border-t border-sky-500 transition-all text-sm p-2 shadow-gray-300 focus:outline-none focus:shadow-gray-500 hover:shadow-gray-500 rounded-md box-border" id="description" name="description" placeholder="Once upon a time..." required)!= undefined===song?'':song.description
+      div(class="flex flex-col gap-2 my-2")
+        label(for="added_by" class="font-bold") Added by:*
+        input(class="shadow-md focus:border-t border-sky-500 transition-all text-sm p-2 shadow-gray-300 focus:outline-none focus:shadow-gray-500 hover:shadow-gray-500 rounded-md" id="added_by" type="text", name="added_by" placeholder="Enter your name" required value!=(undefined===artist?'':artist.added_by)) 
+      div(class="flex flex-col gap-2 my-2")
+        label(for="persona_rating" class="font-bold") Personal rating:*
+        input(class="shadow-md focus:border-t border-sky-500 transition-all text-sm p-2 shadow-gray-300 focus:outline-none focus:shadow-gray-500 hover:shadow-gray-500 rounded-md" id="personal_rating"  type="number", name="personal_rating" placeholder="10" required value!=(undefined===artist?'':artist.personal_rating)) 
+      div(class="flex flex-col gap-2 my-2")
+        label(for="avatar" class="font-bold") Artist image:
         input(type="file", name="avatar" accept="image/*") 
-      if artist !== undefined && artist.image 
-        p 
-          strong *This artist already has an image, send a new one if you wish to update it.
-      br
+        if artist !== undefined && artist.image 
+          p(class="text-xs")
+            strong *This artist already has an image, send a new one if you wish to update it.
       if isUpdate
-        h2 
-          strong UPDATE is a sensitive action. Please enter password to confirm! 
-        label Password*:
-          input(type="password" name="password" required) 
-        br
-      hr
-      button(type="submit") Submit
+        div(class="flex flex-col gap-2 my-2")
+          label(for="password" class="font-bold") Password*:
+          input(class="shadow-md focus:border-t border-sky-500 transition-all text-sm p-2 shadow-gray-300 focus:outline-none focus:shadow-gray-500 hover:shadow-gray-500 rounded-md" type="password" id="password" name="password" placeholder="super secret password" required) 
+          h3(class="text-xs") 
+            strong *UPDATE is a sensitive action. Please enter password to confirm! 
+      div(class="grid place-items-center my-2")
+        button(type="submit" class="px-8 py-2 bg-green-600 text-white hover:text-green-600 hover:bg-white transition-all border rounded-lg border-green-900") Submit
 
   if errors
-    hr  
-    ul.list-disc
+    ul(class="text-xs pl-2")
       each err in errors
-        li= err.msg
-      li Data is invalid so your previous uploaded image is removed, please send it again (If you sent it previously)!
+        li(class="list-disc")
+          i(class="text-red-500")= err.msg
+      li(class="") Data is invalid so your previous uploaded image is removed, please send it again (If you sent it previously)!
