@@ -3,6 +3,7 @@ extends layout
 block link
 
 block content 
+  h2(class="font-bold text-xl") Artist
   header(class="flex gap-2 justify-between")
     div(class="aspect-square max-w-36 w-full") 
       if artist.image === null
@@ -60,7 +61,7 @@ block content
     p 
       a(href="/music/song/create") Create song
 
-  p(class="flex gap-4 items-center justify-evenly p-4 w-full max-w-xs mx-auto") 
+  p(class="flex gap-4 items-center justify-evenly w-full max-w-xs mx-auto") 
     a(href=`/music/artist/${artist.id}/delete`) Delete 
     a(href=`/music/artist/${artist.id}/update`) Update
 

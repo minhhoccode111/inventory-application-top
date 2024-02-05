@@ -3,29 +3,38 @@ extends layout
 block link
 
 block content 
-  h1.text-2xl 
-    a(href=`https://www.youtube.com/results?search_query=${song.query}+song`)!= '🔗' + song.name
-  p Artist(s):
-    | 
-    i
-      each artist, index in song.artist
-        a(href=artist.url)!= artist.name
-        if index !== song.artist.length - 1
-          |, 
-      |.
+  h2(class="font-bold text-xl my-4") Song
+  h3(class="text-lg")
+    a(href=`https://www.youtube.com/results?search_query=${song.query}+song`)!= ' 🔗 ' + song.name
+  div(class="text-sm flex flex-col gap-2 my-4")
+    p Artist(s):
+      | 
+      i
+        each artist, index in song.artist
+          a(href=artist.url)!= artist.name
+          if index !== song.artist.length - 1
+            |, 
+        |.
 
-  p!= 'Desc: ' + song.description
-  p!= 'Added by: ' + song.added_by
-  p Song rating: #{song.personal_rating}/10
-  p.text-right.text-xs
-    i Created At: #{song.created_at_formatted}
-  p.text-right.text-xs
-    i Last modified: #{song.last_modified_formatted}
-  hr.my-8
+    p!= 'Desc: ' + song.description
+    p Added by: 
+      strong!= song.added_by
+    p(class="") Song rating: 
+      if song.personal_rating >= 8
+        span.text-green-600 #{song.personal_rating}
+      else if song.personal_rating >= 4
+        span.text-yellow-600 #{song.personal_rating}
+      else 
+        span.text-red-600 #{song.personal_rating}
+      |/10
+    p(class="text-right text-xs")
+      i Created At: #{song.created_at_formatted}
+    p(class="text-right text-xs")
+      i Last modified: #{song.last_modified_formatted}
 
-  p(class="flex gap-4 items-center justify-between p-4") 
-    a(href=`/music/song/${song.id}/delete`) Delete song 
-    a(href=`/music/song/${song.id}/update`) Update song
+  p(class="flex gap-4 items-center justify-evenly w-full max-w-xs mx-auto") 
+    a(href=`/music/song/${song.id}/delete`) Delete 
+    a(href=`/music/song/${song.id}/update`) Update
 
  
 
