@@ -1,7 +1,7 @@
 extends layout 
 
 block content
-  h2(class="font-bold text-xl my-4") Artists
+  h2(class="font-bold text-xl my-4")= title
 
   if artistsList.length !== 0 
     ul(class="grid grid-cols-1 gap-4")
@@ -13,11 +13,11 @@ block content
             img(src=`/images/uploads/${artist.image}` class="aspect-square w-20 rounded-lg object-cover border" alt=`${artist.name} thumbnail image!`)
           div
             h3(class="text-lg/tight font-medium")
-              a(href=artist.url)!= artist.name
+              a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=artist.url)!= artist.name
             p(class="mt-0.5 text-gray-700")!= artist.description_short
 
   else 
     div(class="mx-auto max-w-sm font-bold text-center my-8")
       p(class="text-red-700") There are no artists here yet  
       p(class="") 
-        a(href="/music/artist/create") Create artist
+        a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href="/music/artist/create") Create artist

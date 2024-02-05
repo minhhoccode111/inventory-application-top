@@ -7,7 +7,7 @@ block content
       each song in songsList 
         li(class="text-xs")
           h3(class="text-lg")
-            a(href=song.url)!= song.name 
+            a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=song.url)!= song.name 
           p(class="text-gray-600")
             each artist, index in song.artist
               i(class="")!= artist.name
@@ -21,4 +21,4 @@ block content
     div(class="mx-auto max-w-sm font-bold text-center my-8")
       p(class="text-red-700") There are no songs here yet  
       p(class="") 
-        a(href="/music/artist/song") Create song
+        a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href="/music/song/create") Create song

@@ -12,7 +12,7 @@ block content
         img(class="object-cover rounded-lg border w-full" src=`/images/uploads/${artist.image}`, alt=`${artist.name} image`)
     div(class="flex-1 text-sm flex flex-col gap-2")
       h2(class="text-lg") 
-        a(href=`https://www.google.com/search?q=${artist.query}+artist`)!= ' 🔗 ' + artist.name
+        a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=`https://www.google.com/search?q=${artist.query}+artist`)!= ' 🔗 ' + artist.name
       p!= 'Desc: ' + artist.description
       p Added by:  
         strong!= artist.added_by
@@ -34,12 +34,12 @@ block content
       each song in artistSongs
         li(class="")
           h3(class="text-lg")
-            a(href=song.url)!= song.name
+            a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=song.url)!= song.name
           p(class="")
             i(class="text-xs")
               each subArtist, index in song.artist
                 if subArtist.name !== artist.name
-                  a(href=subArtist.url)!= subArtist.name
+                  a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=subArtist.url)!= subArtist.name
                 else
                   span= subArtist.name
                 if index !== song.artist.length - 1
@@ -60,9 +60,9 @@ block content
     div(class="max-w-sm mx-auto w-full text-center my-8")
       p This artist has no songs
       p 
-        a(href="/music/song/create") Create song
+        a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href="/music/song/create") Create song
 
   p(class="flex gap-4 items-center justify-evenly w-full max-w-xs mx-auto") 
-    a(href=`/music/artist/${artist.id}/delete`) Delete 
-    a(href=`/music/artist/${artist.id}/update`) Update
+    a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=`/music/artist/${artist.id}/delete`) Delete 
+    a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=`/music/artist/${artist.id}/update`) Update
 

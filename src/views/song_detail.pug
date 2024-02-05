@@ -5,13 +5,13 @@ block link
 block content 
   h2(class="font-bold text-xl my-4") Song
   h3(class="text-lg")
-    a(href=`https://www.youtube.com/results?search_query=${song.query}+song`)!= ' 🔗 ' + song.name
+    a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=`https://www.youtube.com/results?search_query=${song.query}+song`)!= ' 🔗 ' + song.name
   div(class="text-sm flex flex-col gap-2 my-4")
     p Artist(s):
       | 
       i
         each artist, index in song.artist
-          a(href=artist.url)!= artist.name
+          a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=artist.url)!= artist.name
           if index !== song.artist.length - 1
             |, 
         |.
@@ -33,8 +33,8 @@ block content
       i Last modified: #{song.last_modified_formatted}
 
   p(class="flex gap-4 items-center justify-evenly w-full max-w-xs mx-auto") 
-    a(href=`/music/song/${song.id}/delete`) Delete 
-    a(href=`/music/song/${song.id}/update`) Update
+    a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=`/music/song/${song.id}/delete`) Delete 
+    a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=`/music/song/${song.id}/update`) Update
 
  
 

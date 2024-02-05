@@ -6,7 +6,9 @@ The **Gimme Music** application is created according to the assignment from **Th
 
 ## Screenshot
 
-<!-- ![Gimme Music Screenshot]() -->
+![Gimme Music Screenshot](/public/images/inventory-application-screenshot.png)
+
+## **Demo** [here](https://inventoryapplicationtop.glitch.me)
 
 ## **Features**
 
@@ -14,6 +16,7 @@ The **Gimme Music** application is created according to the assignment from **Th
 - Upload images
 - Password
 - Backend validation
+- Beautiful UI with Tailwind 😅
 
 ## **Outcome**
 
@@ -33,6 +36,11 @@ The **Gimme Music** application is created according to the assignment from **Th
 - Used **dotenv** (environment variables)
 - Learned to debug a lot of `multer` cases
 - A more detail note about this problem can be found [here](NOTE.md)
+
+## **Idea to implement**
+
+- Fully responsive
+- Animations
 
 ## **Getting Started**
 

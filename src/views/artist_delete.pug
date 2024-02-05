@@ -1,42 +1,50 @@
 extends layout 
 
 block content
-  header(class="flex gap-4 items-center justify-between")
-    div(class="aspect-square max-w-36 flex justify-center items-center") 
+  h2(class="font-bold text-lg")= title
+  header(class="flex gap-2 justify-between")
+    div(class="aspect-square max-w-36 w-full") 
       if artist.image === null
-        img(class="object-center object-cover h-full block" src=`/images/default.png`, alt=`Placeholder image 'cause this artist doesn't have one`)
+        img(class="object-cover rounded-lg border w-full" src=`/images/default.png`, alt=`Placeholder image 'cause this artist doesn't have one`)
       else 
-        img(class="object-center object-cover h-full block" src=`/images/uploads/${artist.image}`, alt=`${artist.name} image`)
-    div.flex-1
-      h1.text-2xl Delete Artist
-        | 
-        a(href=`https://www.google.com/search?q=${artist.query}+artist`)!= ' 🔗 ' + artist.name
+        img(class="object-cover rounded-lg border w-full" src=`/images/uploads/${artist.image}`, alt=`${artist.name} image`)
+    div(class="flex-1 text-sm flex flex-col gap-2")
+      h2(class="text-lg") 
+        a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=`https://www.google.com/search?q=${artist.query}+artist`)!= ' 🔗 ' + artist.name
       p!= 'Desc: ' + artist.description
-      p!= 'Added by: ' + artist.added_by
-      p Artist rating: #{artist.personal_rating}/10
-      p.text-right.text-xs
+      p Added by:  
+        strong!= artist.added_by
+      p Artist rating: 
+        if artist.personal_rating >= 8
+          span.text-green-600 #{artist.personal_rating}
+        else if artist.personal_rating >= 4
+          span.text-yellow-600 #{artist.personal_rating}
+        else 
+          span.text-red-600 #{artist.personal_rating}
+        |/10
+      p(class="text-right text-xs")
         i Created At: #{artist.created_at_formatted}
-      p.text-right.text-xs
+      p(class="text-right text-xs")
         i Last modified: #{artist.last_modified_formatted}
-  hr.my-8
 
   if artistSongs.length !== 0
-    p 
+    ul(class="")
       strong Please delete (or update) the following song(s) before trying to delete this artist!
-      ul.list-disc
         each song in artistSongs
-          li
-            a(href=song.url)!= song.name
+          li(class="my-2")
+            h3(class="")
+              a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" ,href=song.url)!= song.name
 
   else
-    h2 
-      strong DELETE is a sensitive action. Please enter password to confirm! 
     div 
-      form(method="POST" class="")
-        label Password*:
-          input(type="password" name="password" required) 
-        br
-        button(type="submit" class="text-xl p-4 border rounded-full m-4") Delete
+      form(method="POST" class="p-2")
+        div(class="flex flex-col gap-2 my-2")
+          label(for="password" class="font-bold") Password*:
+          input(class="shadow-md focus:border-t border-sky-500 transition-all text-sm p-2 shadow-gray-300 focus:outline-none focus:shadow-gray-500 hover:shadow-gray-500 rounded-md" type="password" id="password" name="password" placeholder="super secret password" required) 
+          h3(class="text-xs") 
+            strong *DELETE is a sensitive action. Please enter password to confirm! 
+        div(class="grid place-items-center my-2")
+          button(type="submit" class="px-8 py-2 bg-red-600 text-white hover:text-red-600 hover:bg-white transition-all border rounded-lg border-red-900") Delete
 
     if errors !== undefined
       ul.list-disc

@@ -1,28 +1,38 @@
 extends layout 
 
 block content
-  h1 Delete Song:  
-    | 
-    a(href=song.url)!= song.name
-  p!= 'Desc: ' + song.description
-  p!= 'Added by: ' + song.added_by
-  p Song rating: #{song.personal_rating}/10
-  p.text-right.text-xs
-    i Created At: #{song.created_at_formatted}
-  p.text-right.text-xs
-    i Last modified: #{song.last_modified_formatted}
-  hr.my-8
+  h2(class="font-bold text-lg")= title
+  h3(class="") 
+    a(class="text-sky-500 transition-all hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold", href=song.url)!= song.name
+  div(class="text-sm")
+    p!= 'Desc: ' + song.description
+    p Added by: 
+      strong(class="")!= song.added_by
+    p(class="") Song rating: 
+      if song.personal_rating >= 8
+        span.text-green-600 #{song.personal_rating}
+      else if song.personal_rating >= 4
+        span.text-yellow-600 #{song.personal_rating}
+      else 
+        span.text-red-600 #{song.personal_rating}
+      |/10
+    p(class="text-right text-xs")
+      i Created At: #{song.created_at_formatted}
+    p(class="text-right text-xs")
+      i Last modified: #{song.last_modified_formatted}
 
-  h2 
-    strong DELETE is a sensitive action. Please enter password to confirm! 
   div 
-    form(method="POST" class="")
-      label Password*:
-        input(type="password" name="password" required) 
-      br
-      button(type="submit" class="text-xl p-4 border rounded-full m-4") Delete
+    form(method="POST" class="p-2")
+      div(class="flex flex-col gap-2 my-2")
+        label(for="password" class="font-bold") Password*:
+        input(class="shadow-md focus:border-t border-sky-500 transition-all text-sm p-2 shadow-gray-300 focus:outline-none focus:shadow-gray-500 hover:shadow-gray-500 rounded-md" type="password" id="password" name="password" placeholder="super secret password" required) 
+        h3(class="text-xs") 
+          strong *DELETE is a sensitive action. Please enter password to confirm! 
+      div(class="grid place-items-center my-2")
+        button(type="submit" class="px-8 py-2 bg-red-600 text-white hover:text-red-600 hover:bg-white transition-all border rounded-lg border-red-900") Delete
 
     if errors !== undefined
-      ul.list-disc
-        each error in errors
-          li= error.msg
+      ul(class="text-xs pl-2")
+        each err in errors
+          li(class="list-disc")
+            i(class="text-red-500")= err.msg
