@@ -8,14 +8,14 @@ block content
         li(class="text-xs")
           h3(class="text-lg")
             a(href=song.url)!= song.name 
-          p(class="")
+          p(class="text-gray-600")
             each artist, index in song.artist
               i(class="")!= artist.name
               if index === song.artist.length - 1
                 |. 
               else 
                 |, 
-          p(class="")!= song.description_short
+          p(class="text-gray-600")!= song.description_short
 
   else 
     div(class="mx-auto max-w-sm font-bold text-center my-8")
