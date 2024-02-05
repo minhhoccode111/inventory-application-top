@@ -14,7 +14,7 @@ html
     //- our custom javascript and css files
     block link
   body
-    div#wrapper(class="min-h-screen flex flex-col justify-between gap-4 text-dark")
+    div#wrapper(class="min-h-screen flex flex-col justify-between gap-4 text-dark max-w-2xl w-full mx-auto")
       header(class="flex justify-between gap-4 p-2 shadow-xl")
         h1(class="font-extrabold text-lg font-mono") 
           a(href="/music") Gimme music 
@@ -34,10 +34,10 @@ html
             li(class="") 
               a(class="text-sky-500 hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold" href="/music/song/create") Add song  
 
-      main(class="flex-1 p-2 max-w-xl mx-auto")
+      main(class="flex-1 p-2")
         block content 
 
-      footer(class="p-2 flex items-center justify-center") 
+      footer(class="p-2 flex items-center justify-center border-t-2") 
         p(class="text-xs")
           a(class="text-sky-500 hover:text-white hover:bg-sky-500 p-1 rounded underline underline-offset-4 decoration-dotted hover:decoration-solid font-bold font-mono" href="https://github.com/minhhoccode111/inventory-application-top/") This project
           |is made with 

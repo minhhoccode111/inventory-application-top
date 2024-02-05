@@ -78,7 +78,10 @@ I will create a site which everyone can add their favorite songs and know what s
 - [x] password for
   - [x] UPDATE
   - [x] DELETE
-- [ ] deploy
+- [x] styles
+- [ ] responsive
+- [ ] animations
+- [x] deploy
 
 ## how this app's navigation
 

@@ -3,32 +3,39 @@ extends layout
 block link
 
 block content 
-  header(class="flex gap-4 items-center justify-between")
-    div(class="aspect-square max-w-36 flex justify-center items-center") 
+  header(class="flex gap-2 justify-between")
+    div(class="aspect-square max-w-36 w-full") 
       if artist.image === null
-        img(class="object-center object-cover h-full block" src=`/images/default.png`, alt=`Placeholder image 'cause this artist doesn't have one`)
+        img(class="object-cover rounded-lg border w-full" src=`/images/default.png`, alt=`Placeholder image 'cause this artist doesn't have one`)
       else 
-        img(class="object-center object-cover h-full block" src=`/images/uploads/${artist.image}`, alt=`${artist.name} image`)
-    div.flex-1
-      h1.text-2xl 
+        img(class="object-cover rounded-lg border w-full" src=`/images/uploads/${artist.image}`, alt=`${artist.name} image`)
+    div(class="flex-1 text-sm flex flex-col gap-2")
+      h2(class="text-lg") 
         a(href=`https://www.google.com/search?q=${artist.query}+artist`)!= ' 🔗 ' + artist.name
       p!= 'Desc: ' + artist.description
-      p!= 'Added by: ' + artist.added_by
-      p Artist rating: #{artist.personal_rating}/10
-      p.text-right.text-xs
+      p Added by:  
+        strong!= artist.added_by
+      p Artist rating: 
+        if artist.personal_rating >= 8
+          span.text-green-600 #{artist.personal_rating}
+        else if artist.personal_rating >= 4
+          span.text-yellow-600 #{artist.personal_rating}
+        else 
+          span.text-red-600 #{artist.personal_rating}
+        |/10
+      p(class="text-right text-xs")
         i Created At: #{artist.created_at_formatted}
-      p.text-right.text-xs
+      p(class="text-right text-xs")
         i Last modified: #{artist.last_modified_formatted}
-  hr.my-8
 
   if artistSongs.length !== 0
-    ul.list-disc
+    ul(class="my-8")
       each song in artistSongs
-        li
-          p.text-xl
+        li(class="")
+          h3(class="text-lg")
             a(href=song.url)!= song.name
-          p
-            i
+          p(class="")
+            i(class="text-xs")
               each subArtist, index in song.artist
                 if subArtist.name !== artist.name
                   a(href=subArtist.url)!= subArtist.name
@@ -37,7 +44,14 @@ block content
                 if index !== song.artist.length - 1
                   |, 
               |.
-          p.text-sm Song rating: #{song.personal_rating}/10
+          p(class="text-xs") Song rating: 
+            if song.personal_rating >= 8
+              span.text-green-600 #{song.personal_rating}
+            else if song.personal_rating >= 4
+              span.text-yellow-600 #{song.personal_rating}
+            else 
+              span.text-red-600 #{song.personal_rating}
+            |/10
           br
 
 
@@ -45,9 +59,8 @@ block content
     p This artist has no songs
     p 
       a(href="/music/song/create") Create song
-  hr.mb-16
 
-  p(class="flex gap-4 items-center justify-between p-4") 
-    a(href=`/music/artist/${artist.id}/delete`) Delete artist 
-    a(href=`/music/artist/${artist.id}/update`) Update artist
+  p(class="flex gap-4 items-center justify-evenly p-4 w-full max-w-xs mx-auto") 
+    a(href=`/music/artist/${artist.id}/delete`) Delete 
+    a(href=`/music/artist/${artist.id}/update`) Update
 
