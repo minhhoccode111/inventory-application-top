@@ -17,6 +17,7 @@ block content
             p(class="mt-0.5 text-gray-700")!= artist.description_short
 
   else 
-    p There are no artists here yet  
-    p 
-      a(href="/music/artist/create") Create artist
+    div(class="mx-auto max-w-sm font-bold text-center my-8")
+      p(class="text-red-700") There are no artists here yet  
+      p(class="") 
+        a(href="/music/artist/create") Create artist

@@ -1,17 +1,24 @@
 extends layout 
 
 block content
-  h1= title
-  hr
+  h2(class="font-bold text-lg my-4") Songs
   if songsList.length !== 0
-    ul.list-disc 
+    ul(class="flex flex-col gap-3")
       each song in songsList 
-        li
-          h2 
+        li(class="text-xs")
+          h3(class="text-lg")
             a(href=song.url)!= song.name 
-          p!= song.description_short
+          p(class="")
+            each artist, index in song.artist
+              i(class="")!= artist.name
+              if index === song.artist.length - 1
+                |. 
+              else 
+                |, 
+          p(class="")!= song.description_short
 
   else 
-    p There are no songs here yet  
-    p 
-      a(href="/music/song/create") Create song
+    div(class="mx-auto max-w-sm font-bold text-center my-8")
+      p(class="text-red-700") There are no songs here yet  
+      p(class="") 
+        a(href="/music/artist/song") Create song

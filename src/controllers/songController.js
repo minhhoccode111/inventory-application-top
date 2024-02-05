@@ -7,7 +7,7 @@ const Song = require('./../models/song');
 const { body, validationResult } = require('express-validator');
 
 module.exports.songs_list = asyncHandler(async (req, res, next) => {
-  const songsList = await Song.find({}).exec();
+  const songsList = await Song.find({}).populate('artist').exec();
 
   res.render('songs_list', {
     title: 'Songs',
