@@ -47,7 +47,7 @@ The **Gimme Music** application is created according to the assignment from **Th
 HTTPS
 
 ```bash
-git clone https://github.com/minhhoccode111/inventory-.git
+git clone https://github.com/minhhoccode111/inventory-application-top.git
 ```
 
 or SSH
@@ -68,6 +68,6 @@ npm start
 
 - See [all my projects'](https://github.com/minhhoccode111/all-projects-live-demos) live demos
 
-* See my previous project [Mini Message Board](https://github.com/minhhoccode111/mini-message-board)
+* See my previous project [Mini Message Board](https://github.com/minhhoccode111/mini-message-board-top)
 
 <!-- * See my next project []() -->
