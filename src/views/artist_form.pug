@@ -11,7 +11,7 @@ block content
         input(class="shadow-md focus:border-t border-sky-500 transition-all text-sm p-2 shadow-gray-300 focus:outline-none focus:shadow-gray-500 hover:shadow-gray-500 rounded-md" id="name" type="text", name="name" placeholder="Enter artist name" required value!=(undefined===artist?'':artist.name)) 
       div(class="flex flex-col gap-2 my-2")
         label(for="description" class="font-bold") Description:*
-        textarea(class="shadow-md focus:border-t border-sky-500 transition-all text-sm p-2 shadow-gray-300 focus:outline-none focus:shadow-gray-500 hover:shadow-gray-500 rounded-md box-border" id="description" name="description" placeholder="Once upon a time..." required)!= undefined===song?'':song.description
+        textarea(class="shadow-md focus:border-t border-sky-500 transition-all text-sm p-2 shadow-gray-300 focus:outline-none focus:shadow-gray-500 hover:shadow-gray-500 rounded-md box-border" id="description" name="description" placeholder="Once upon a time..." required)!= undefined===artist?'':artist.description
       div(class="flex flex-col gap-2 my-2")
         label(for="added_by" class="font-bold") Added by:*
         input(class="shadow-md focus:border-t border-sky-500 transition-all text-sm p-2 shadow-gray-300 focus:outline-none focus:shadow-gray-500 hover:shadow-gray-500 rounded-md" id="added_by" type="text", name="added_by" placeholder="Enter your name" required value!=(undefined===artist?'':artist.added_by)) 
