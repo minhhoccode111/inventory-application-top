@@ -71,8 +71,12 @@ module.exports.song_create_post = [
 
     const artistsList = await Artist.find({}, 'name').exec();
     // mark the ones that have been checked previously
-    artistsList.forEach((artist) => {
-      if (req.body.artist_checkboxes.includes(artist._id.toString())) artist.checked = true;
+    const artistsSong = artistsList.filter((artist) => {
+      if (req.body.artist_checkboxes.includes(artist._id.toString())) {
+        artist.checked = true;
+        return true;
+      }
+      return false;
     });
 
     // print(artistsList);
@@ -83,7 +87,7 @@ module.exports.song_create_post = [
       personal_rating: req.body.personal_rating,
       created_at: Date.now(),
       last_modified: Date.now(),
-      artist: artistsList,
+      artist: artistsSong, // BUG
     });
 
     if (error.isEmpty()) {
@@ -208,7 +212,13 @@ module.exports.song_update_post = [
     }
 
     // mark the ones that have been checked previously
-    artistsList.forEach((artist) => (artist.checked = req.body.artist_checkboxes.includes(artist._id.toString())));
+    const artistsSong = artistsList.filter((artist) => {
+      if (req.body.artist_checkboxes.includes(artist._id.toString())) {
+        artist.checked = true;
+        return true;
+      }
+      return false;
+    });
 
     // print(artistsList);
 
@@ -219,7 +229,7 @@ module.exports.song_update_post = [
       personal_rating: req.body.personal_rating,
       created_at: oldSong.created_at, // keep
       last_modified: Date.now(),
-      artist: artistsList,
+      artist: artistsSong,
       _id: oldSong._id, // keep
     });
 

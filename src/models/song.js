@@ -7,31 +7,31 @@ const Schema = mongoose.Schema;
 const SongSchema = new Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   description: {
     type: String,
-    require: true,
+    required: true,
   },
   artist: {
-    type: [{ type: Schema.ObjectId, ref: 'Artist' }],
-    require: true,
+    type: [{ type: Schema.Types.ObjectId, ref: 'Artist' }],
+    required: true,
   },
   added_by: {
     type: String,
-    require: true,
+    required: true,
   },
   personal_rating: {
     type: Number,
-    require: true,
+    required: true,
   },
   created_at: {
     type: Date,
-    require: true,
+    required: true,
   },
   last_modified: {
     type: Date,
-    require: true,
+    required: true,
   },
 });
 
